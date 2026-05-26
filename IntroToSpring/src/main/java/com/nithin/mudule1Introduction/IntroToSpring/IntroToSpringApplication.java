@@ -8,18 +8,26 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.Map;
+
 @SpringBootApplication
 public class IntroToSpringApplication implements CommandLineRunner {
 	@Autowired
 	PaymentService paymentService;
 
 //	@Autowired
-	final NotificationService notificationService;
+//	final NotificationService notificationService;
 
 	//Qualifier should be kept before the constructor parameter, it takes the precedence over anything, if we give
 	//qualifier and in conditional we dont give that value that bean will not be created and it throws bean not found
-    public IntroToSpringApplication(NotificationService notificationService) {
-        this.notificationService = notificationService;
+//    public IntroToSpringApplication(NotificationService notificationService) {
+//        this.notificationService = notificationService;
+//    }
+
+	private final Map<String,NotificationService> notificationServiceMap;
+
+    public IntroToSpringApplication(Map<String, NotificationService> notificationServiceMap) {
+        this.notificationServiceMap = notificationServiceMap;
     }
 
     public static void main(String[] args) {
@@ -29,7 +37,11 @@ public class IntroToSpringApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 //		paymentService.pay();
-		notificationService.send("Hello world");
+//		notificationService.send("Hello world");
+
+		for(var notificationService:notificationServiceMap.entrySet()){
+			notificationService.getValue().send("Hello");
+		}
 	}
 
 	@PostConstruct
