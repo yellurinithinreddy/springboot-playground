@@ -1,5 +1,7 @@
 package com.nithin.mudule1Introduction.IntroToSpring;
 
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -17,5 +19,15 @@ public class IntroToSpringApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		paymentService.pay();
+	}
+
+	@PostConstruct
+	void beforeInit(){
+		System.out.println("Before Paying..");
+	}
+
+	@PreDestroy
+	void afterInit(){
+		System.out.println("After Paying");
 	}
 }
