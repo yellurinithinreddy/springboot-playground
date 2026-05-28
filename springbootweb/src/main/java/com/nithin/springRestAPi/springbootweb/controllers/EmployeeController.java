@@ -20,4 +20,15 @@ public class EmployeeController {
         return "Hi my age is "+age+" "+sortBy;
     }
 
+    @PostMapping
+    EmployeeDTO createNewEmployee(@RequestBody EmployeeDTO imputEmployee){
+        imputEmployee.setId(101L);
+        return imputEmployee;
+    }
+
+    @PutMapping
+    String updateEmployeeById(){
+        return "Hello from PUT";
+    }
+
 }
