@@ -11,13 +11,13 @@ public class EmployeeController {
 
 
     @GetMapping("/{employeeId}")
-    EmployeeDTO getEmployeeById(@PathVariable Long employeeId){
-        return new EmployeeDTO(employeeId,"Nithin","nithin@gmail.com",24, LocalDate.of(2024,11,05),true);
+    EmployeeDTO getEmployeeById(@PathVariable(name = "employeeId") Long id){
+        return new EmployeeDTO(id,"Nithin","nithin@gmail.com",24, LocalDate.of(2024,11,05),true);
     }
 
     @GetMapping
-    String getAllEmployees(@RequestParam(required = false) Integer age){
-        return "Hi my age is "+age;
+    String getAllEmployees(@RequestParam(required = false) Integer age,@RequestParam(required = false) String sortBy){
+        return "Hi my age is "+age+" "+sortBy;
     }
 
 }
