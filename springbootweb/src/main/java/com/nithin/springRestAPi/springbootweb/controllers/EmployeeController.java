@@ -1,29 +1,34 @@
 package com.nithin.springRestAPi.springbootweb.controllers;
 
 import com.nithin.springRestAPi.springbootweb.dto.EmployeeDTO;
+import com.nithin.springRestAPi.springbootweb.entities.EmployeeEntity;
+import com.nithin.springRestAPi.springbootweb.repositories.EmployeeRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequestMapping("/employees")
+@RequiredArgsConstructor
 public class EmployeeController {
 
+    private final EmployeeRepository employeeRepository;
 
     @GetMapping("/{employeeId}")
-    EmployeeDTO getEmployeeById(@PathVariable(name = "employeeId") Long id){
-        return new EmployeeDTO(id,"Nithin","nithin@gmail.com",24, LocalDate.of(2024,11,05),true);
+    EmployeeEntity getEmployeeById(@PathVariable(name = "employeeId") Long id){
+        return employeeRepository.findById(id).orElse(null);
     }
 
     @GetMapping
-    String getAllEmployees(@RequestParam(required = false) Integer age,@RequestParam(required = false) String sortBy){
-        return "Hi my age is "+age+" "+sortBy;
+    List<EmployeeEntity> getAllEmployees(@RequestParam(required = false) Integer age, @RequestParam(required = false) String sortBy){
+        return employeeRepository.findAll();
     }
 
     @PostMapping
-    EmployeeDTO createNewEmployee(@RequestBody EmployeeDTO imputEmployee){
-        imputEmployee.setId(101L);
-        return imputEmployee;
+    EmployeeEntity createNewEmployee(@RequestBody EmployeeEntity imputEmployee){
+        return employeeRepository.save(imputEmployee);
     }
 
     @PutMapping
