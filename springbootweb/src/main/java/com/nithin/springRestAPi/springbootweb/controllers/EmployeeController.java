@@ -2,6 +2,7 @@ package com.nithin.springRestAPi.springbootweb.controllers;
 
 import com.nithin.springRestAPi.springbootweb.dto.EmployeeDTO;
 import com.nithin.springRestAPi.springbootweb.services.EmployeeService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,7 @@ public class EmployeeController {
     }
 
     @PostMapping
-    ResponseEntity<EmployeeDTO> createNewEmployee(@RequestBody EmployeeDTO inputEmployee){
+    ResponseEntity<EmployeeDTO> createNewEmployee(@RequestBody @Valid EmployeeDTO inputEmployee){
         return new ResponseEntity<>(employeeService.addEmployee(inputEmployee), HttpStatus.CREATED);
     }
 
