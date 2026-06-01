@@ -1,6 +1,7 @@
 package com.nithin.springRestAPi.springbootweb.dto;
 
 
+import com.nithin.springRestAPi.springbootweb.annotations.EmployeeRoleValidation;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,7 +31,8 @@ public class EmployeeDTO {
     @Min(value = 18,message = "age should be greater than 18")
     private Integer age;
 
-    @Pattern(regexp = "^(ADMIN|USER)$")
+//    @Pattern(regexp = "^(ADMIN|USER)$")
+    @EmployeeRoleValidation
     private String role;
 
     @PastOrPresent(message = "joining date must be in past or present not in future")
