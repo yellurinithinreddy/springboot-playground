@@ -26,10 +26,7 @@ public class EmployeeController {
         return employeeDTO.map(ResponseEntity::ok).orElseThrow(() -> new NoSuchElementException("Employee with id: "+id+" not found"));
     }
 
-    @ExceptionHandler(NoSuchElementException.class)
-    public ResponseEntity<String> NoSuchElementExceptionHandler(NoSuchElementException exception){
-        return new ResponseEntity<>(exception.getLocalizedMessage(),HttpStatus.NOT_FOUND);
-    }
+
 
     @GetMapping
     ResponseEntity<List<EmployeeDTO>> getAllEmployees(@RequestParam(required = false) Integer age, @RequestParam(required = false) String sortBy){
