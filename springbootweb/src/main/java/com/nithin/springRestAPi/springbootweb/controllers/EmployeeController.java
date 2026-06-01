@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RestController
@@ -22,7 +23,12 @@ public class EmployeeController {
     @GetMapping("/{employeeId}")
     ResponseEntity<EmployeeDTO> getEmployeeById(@PathVariable(name = "employeeId") Long id){
         Optional<EmployeeDTO> employeeDTO = employeeService.getEmployeeById(id);
-        return employeeDTO.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+        return employeeDTO.map(ResponseEntity::ok).orElseThrow(() -> new NoSuchElementException("Employee with id: "+id+" not found"));
+    }
+
+    @ExceptionHandler(NoSuchElementException.class)
+    public ResponseEntity<String> NoSuchElementExceptionHandler(NoSuchElementException exception){
+        return new ResponseEntity<>(exception.getLocalizedMessage(),HttpStatus.NOT_FOUND);
     }
 
     @GetMapping
