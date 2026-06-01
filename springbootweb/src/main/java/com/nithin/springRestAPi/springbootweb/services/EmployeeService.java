@@ -2,6 +2,7 @@ package com.nithin.springRestAPi.springbootweb.services;
 
 import com.nithin.springRestAPi.springbootweb.dto.EmployeeDTO;
 import com.nithin.springRestAPi.springbootweb.entities.EmployeeEntity;
+import com.nithin.springRestAPi.springbootweb.exceptions.ResourceNotFoundException;
 import com.nithin.springRestAPi.springbootweb.repositories.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -41,7 +42,7 @@ public class EmployeeService {
     }
 
     public EmployeeDTO updateEmployeeById(Long employeeId, EmployeeDTO employeeDTO) {
-
+        existsByEmployeeId(employeeId);
         EmployeeEntity employeeEntity = modelMapper.map(employeeDTO,EmployeeEntity.class);
         employeeEntity.setId(employeeId);
         return modelMapper.map(employeeEntity,EmployeeDTO.class);
@@ -50,8 +51,7 @@ public class EmployeeService {
     }
 
     public EmployeeDTO updatePartialEmployeeById(Long employeeId, Map<String, Object> updates) {
-        boolean isExists = existsByEmployeeId(employeeId);
-        if(!isExists) return null;
+        existsByEmployeeId(employeeId);
         EmployeeEntity employeeEntity = employeeRepository.findById(employeeId).get();
         updates.forEach(
                 (key,value) ->{
@@ -66,13 +66,14 @@ public class EmployeeService {
     }
 
     public boolean removeEmployee(Long employeeId) {
-        boolean isExists = existsByEmployeeId(employeeId);
-        if(!isExists) return false;
+        existsByEmployeeId(employeeId);
         employeeRepository.deleteById(employeeId);
         return true;
     }
 
-    boolean existsByEmployeeId(Long employeeId){
-        return employeeRepository.existsById(employeeId);
+    void existsByEmployeeId(Long employeeId){
+
+        boolean exists = employeeRepository.existsById(employeeId);
+        if(!exists) throw new ResourceNotFoundException("Employee with id: "+employeeId+" not found");
     }
 }

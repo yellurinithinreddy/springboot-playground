@@ -1,6 +1,7 @@
 package com.nithin.springRestAPi.springbootweb.controllers;
 
 import com.nithin.springRestAPi.springbootweb.dto.EmployeeDTO;
+import com.nithin.springRestAPi.springbootweb.exceptions.ResourceNotFoundException;
 import com.nithin.springRestAPi.springbootweb.services.EmployeeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,7 @@ public class EmployeeController {
     @GetMapping("/{employeeId}")
     ResponseEntity<EmployeeDTO> getEmployeeById(@PathVariable(name = "employeeId") Long id){
         Optional<EmployeeDTO> employeeDTO = employeeService.getEmployeeById(id);
-        return employeeDTO.map(ResponseEntity::ok).orElseThrow(() -> new NoSuchElementException("Employee with id: "+id+" not found"));
+        return employeeDTO.map(ResponseEntity::ok).orElseThrow(() -> new ResourceNotFoundException("Employee with id: "+id+" not found"));
     }
 
 
@@ -39,7 +40,7 @@ public class EmployeeController {
     }
 
     @PutMapping("/{employeeId}")
-    ResponseEntity<EmployeeDTO> updateEmployeeById(@PathVariable Long employeeId,@RequestBody EmployeeDTO employeeDTO){
+    ResponseEntity<EmployeeDTO> updateEmployeeById(@PathVariable Long employeeId,@RequestBody @Valid EmployeeDTO employeeDTO){
         return ResponseEntity.ok(employeeService.updateEmployeeById(employeeId,employeeDTO));
     }
 

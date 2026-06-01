@@ -27,6 +27,7 @@ public class EmployeeDTO {
     @Email(message = "email is not valid, please enter valid email")
     private String email;
 
+    @NotNull(message = "age cannot be null")
     @Max(value = 70 , message = "age should be less than 70")
     @Min(value = 18,message = "age should be greater than 18")
     private Integer age;
