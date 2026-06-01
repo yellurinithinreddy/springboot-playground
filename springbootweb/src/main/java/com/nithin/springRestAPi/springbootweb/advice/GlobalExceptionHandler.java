@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -22,24 +21,36 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(apiError, apiError.getStatus());
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ApiError> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception){
-        List<String> errors =  exception
-                .getBindingResult()
-                .getAllErrors()
-                .stream()
-                .map(error -> error.getDefaultMessage())
-                .toList();
+//    @ExceptionHandler(MethodArgumentNotValidException.class)
+//    public ResponseEntity<ApiError> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception){
+//        List<String> errors =  exception
+//                .getBindingResult()
+//                .getAllErrors()
+//                .stream()
+//                .map(error -> error.getDefaultMessage())
+//                .toList();
+//
+//        ApiError apiError = ApiError.
+//                builder()
+//                .message("Input Validation failed")
+//                .status(HttpStatus.BAD_REQUEST)
+//                .subErrors(errors)
+//                .build();
+//
+//        return new ResponseEntity<>(apiError,apiError.getStatus());
+//    }
 
-        ApiError apiError = ApiError.
-                builder()
-                .message("Input Validation failed")
-                .status(HttpStatus.BAD_REQUEST)
-                .subErrors(errors)
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ApiError> handleServerError(Exception exception){
+        ApiError apiError = ApiError
+                .builder()
+                .message(exception.getLocalizedMessage())
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .build();
 
         return new ResponseEntity<>(apiError,apiError.getStatus());
     }
+
 
 
 }
