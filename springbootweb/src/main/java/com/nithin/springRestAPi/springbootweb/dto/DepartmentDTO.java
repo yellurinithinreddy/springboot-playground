@@ -1,11 +1,13 @@
 package com.nithin.springRestAPi.springbootweb.dto;
 
+import com.nithin.springRestAPi.springbootweb.annotations.Password;
 import com.nithin.springRestAPi.springbootweb.annotations.PrimeNumber;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Null;
 import jakarta.validation.constraints.PastOrPresent;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,6 +32,9 @@ public class DepartmentDTO {
 
     @PrimeNumber
     private Integer deptStrength;
+
+    @Password
+    private String pwd;
 
     @PastOrPresent
     private LocalDate createdAt;

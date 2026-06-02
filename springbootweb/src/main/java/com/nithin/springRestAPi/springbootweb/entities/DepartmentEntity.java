@@ -30,5 +30,8 @@ public class DepartmentEntity {
     private boolean active;
 
     private Integer deptStrength;
+
+    private String pwd;
+
     private LocalDate createdAt;
 }
