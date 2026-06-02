@@ -13,43 +13,50 @@ import java.util.List;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ApiError> handleResourceNotFoundException(ResourceNotFoundException exception){
+    public ResponseEntity<ApiResponse<?>> handleResourceNotFoundException(ResourceNotFoundException exception){
         ApiError apiError = ApiError.builder()
                 .status(HttpStatus.NOT_FOUND)
                 .message(exception.getLocalizedMessage())
                 .build();
-        return new ResponseEntity<>(apiError, apiError.getStatus());
+        return new ResponseEntity<>(buildApiResponse(apiError), apiError.getStatus());
     }
 
-//    @ExceptionHandler(MethodArgumentNotValidException.class)
-//    public ResponseEntity<ApiError> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception){
-//        List<String> errors =  exception
-//                .getBindingResult()
-//                .getAllErrors()
-//                .stream()
-//                .map(error -> error.getDefaultMessage())
-//                .toList();
-//
-//        ApiError apiError = ApiError.
-//                builder()
-//                .message("Input Validation failed")
-//                .status(HttpStatus.BAD_REQUEST)
-//                .subErrors(errors)
-//                .build();
-//
-//        return new ResponseEntity<>(apiError,apiError.getStatus());
-//    }
-
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiError> handleServerError(Exception exception){
-        ApiError apiError = ApiError
-                .builder()
-                .message(exception.getLocalizedMessage())
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ApiResponse<?> buildApiResponse(ApiError apiError){
+        return ApiResponse.builder()
+                .apiError(apiError)
                 .build();
 
-        return new ResponseEntity<>(apiError,apiError.getStatus());
     }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ApiResponse<?>> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception){
+        List<String> errors =  exception
+                .getBindingResult()
+                .getAllErrors()
+                .stream()
+                .map(error -> error.getDefaultMessage())
+                .toList();
+
+        ApiError apiError = ApiError.
+                builder()
+                .message("Input Validation failed")
+                .status(HttpStatus.BAD_REQUEST)
+                .subErrors(errors)
+                .build();
+
+        return new ResponseEntity<>(buildApiResponse(apiError), apiError.getStatus());
+    }
+
+//    @ExceptionHandler(Exception.class)
+//    public ResponseEntity<ApiResponse<?>> handleServerError(Exception exception){
+//        ApiError apiError = ApiError
+//                .builder()
+//                .message(exception.getLocalizedMessage())
+//                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                .build();
+//
+//        return new ResponseEntity<>(buildApiResponse(apiError), apiError.getStatus());
+//    }
 
 
 
