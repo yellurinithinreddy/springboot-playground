@@ -1,5 +1,6 @@
 package com.nithin.springRestAPi.springbootweb.dto;
 
+import com.nithin.springRestAPi.springbootweb.annotations.PrimeNumber;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -26,6 +27,9 @@ public class DepartmentDTO {
 
     @AssertTrue(message = "dept must be active(true)")
     private boolean active;
+
+    @PrimeNumber
+    private Integer deptStrength;
 
     @PastOrPresent
     private LocalDate createdAt;

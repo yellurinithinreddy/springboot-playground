@@ -29,6 +29,6 @@ public class DepartmentEntity {
 
     private boolean active;
 
-
+    private Integer deptStrength;
     private LocalDate createdAt;
 }
