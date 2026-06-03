@@ -24,7 +24,8 @@ public class ProductController {
     private final int PAGE_SIZE = 5;
 
     @GetMapping
-    public Page<ProductEntity> getAllProducts(
+    public List<ProductEntity> getAllProducts(
+            @RequestParam(defaultValue = "mag") String title,
             @RequestParam(defaultValue = "0") Integer pageNumber,
             @RequestParam(defaultValue = "id") String sortBy){
 //        return productRepository.findBy(Sort.by(Sort.Direction.DESC,sortBy));// by default ASC,
@@ -34,8 +35,10 @@ public class ProductController {
 //                )
 //        );
 //        return productRepository.findByOrderByPriceDesc();// here we are tightly coupled with method names so we can use Sort to pass the sort column dynamically
-        Pageable pageable = PageRequest.of(pageNumber,PAGE_SIZE);
-        return productRepository.findBy(pageable);
+        Pageable pageable = PageRequest.of(pageNumber,PAGE_SIZE,Sort.by(sortBy));
+//        return productRepository.findBy(pageable).getContent();
+        return productRepository.findByTitleContainingIgnoreCase(title,pageable);
+
 
     }
 }

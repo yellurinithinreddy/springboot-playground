@@ -30,7 +30,7 @@ public interface ProductRepository extends JpaRepository<ProductEntity,Long> {
 
     List<ProductEntity> findByTitleContaining(String gam);
 
-    List<ProductEntity> findByTitleContainingIgnoreCase(String gam);
+    List<ProductEntity> findByTitleContainingIgnoreCase(String gam,Pageable pageable);
 
     @Query("select e from ProductEntity e where e.title=?1 and e.price=?2")
     Optional<ProductEntity> findByTitleAndPrice(String str, BigDecimal price);
@@ -52,6 +52,7 @@ public interface ProductRepository extends JpaRepository<ProductEntity,Long> {
 
     List<ProductEntity> findBy(Sort sort);
 
-    Page<ProductEntity> findBy(Pageable pageable);
     List<ProductEntity> findByOrderByPriceDesc();
+    Page<ProductEntity> findBy(Pageable pageable);
+
 }
