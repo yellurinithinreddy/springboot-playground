@@ -1,6 +1,9 @@
 package com.nithin.SpringDataJPADemo.JPATutorial.repositories;
 
 import com.nithin.SpringDataJPADemo.JPATutorial.entities.ProductEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -44,8 +47,11 @@ public interface ProductRepository extends JpaRepository<ProductEntity,Long> {
 
     List<ProductEntity> findByTitleNotIn(List<String> titles);
 
-    @Query("select e.price from Product e where e.title = ?1")
+    @Query("select e.price from ProductEntity e where e.title = ?1")
     String getMeAllWhoseTitleIsPepsi(String pepsi);
 
+    List<ProductEntity> findBy(Sort sort);
 
+    Page<ProductEntity> findBy(Pageable pageable);
+    List<ProductEntity> findByOrderByPriceDesc();
 }

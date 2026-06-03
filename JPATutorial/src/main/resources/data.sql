@@ -1,6 +1,26 @@
-INSERT INTO product_table (price, quantity, sku, title_x)
-VALUES
-    (999.99, 10, 'SKU001', 'Wireless Mouse'),
-    (2499.50, 5, 'SKU002', 'Mechanical Keyboard'),
-    (59999.00, 2, 'SKU003', 'Gaming Laptop'),
-    (1499.75, 15, 'SKU004', 'USB-C Hub');
+insert into test.product_table (price,quantity,sku,title_x)
+values
+    (12.4,10,'parle123','Parle Biscuit'),
+    (10.4,5,'pepsi124','Pepsi'),
+    (32.4,2,'Coke156','Coca-Cola'),
+    (18.9,7,'campa567','Campa Cola'),
+    (15.5,12,'lays111','Lays Chips'),
+    (20.0,8,'kurkure222','Kurkure'),
+    (25.5,6,'maggi333','Maggi Noodles'),
+    (30.0,4,'kitkat444','KitKat'),
+    (12.0,15,'dairy555','Dairy Milk'),
+    (22.5,9,'sprite666','Sprite'),
+    (28.0,3,'fanta777','Fanta'),
+    (35.0,2,'redbull888','Red Bull'),
+    (18.0,10,'bingo999','Bingo Chips'),
+    (40.0,1,'boost101','Boost'),
+    (27.5,5,'horlicks102','Horlicks'),
+    (16.0,11,'goodday103','Good Day Biscuits'),
+    (19.5,7,'hide104','Hide & Seek'),
+    (45.0,2,'tropicana105','Tropicana Juice'),
+    (50.0,1,'real106','Real Juice'),
+    (14.5,13,'oreo107','Oreo'),
+    (23.0,6,'bourbon108','Bourbon Biscuits'),
+    (29.0,4,'pringles109','Pringles'),
+    (33.5,3,'monster110','Monster Energy'),
+    (17.0,9,'perk111','Perk Chocolate');
