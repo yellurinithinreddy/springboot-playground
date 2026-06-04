@@ -9,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -37,4 +38,12 @@ public class PatientEntity {
 
     @CreationTimestamp
     private LocalDateTime createdAt;
+
+    @OneToOne
+    @JoinColumn(name = "patient_insurance",unique = true)
+    private Insurance insurance;
+
+
+    @OneToMany(mappedBy = "patient")
+    private List<Appointment> appointments;
 }

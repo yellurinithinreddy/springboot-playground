@@ -5,6 +5,7 @@ import com.nithin.HMS.HospitalManagementSystem.dto.CPatientInfo;
 import com.nithin.HMS.HospitalManagementSystem.dto.IPatientInfo;
 import com.nithin.HMS.HospitalManagementSystem.entities.PatientEntity;
 import com.nithin.HMS.HospitalManagementSystem.repositories.PatientRepository;
+import com.nithin.HMS.HospitalManagementSystem.services.PatientService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,6 +17,9 @@ public class PatientServiceTest {
     @Autowired
     private PatientRepository patientRepository;
 
+    @Autowired
+    private PatientService patientService;
+
     @Test
     public void testPatient(){
 //        List<IPatientInfo> patientInfo = patientRepository.getAllPatientInfo();
@@ -26,9 +30,9 @@ public class PatientServiceTest {
 //        for(var p:bloodGroupStats){
 //            System.out.println(p);
 //        }
-        int rowsAffected = patientRepository.updatePatientName("Sita Shankar",4L);
-        System.out.println(rowsAffected);
-
+//        int rowsAffected = patientRepository.updatePatientName("Sita Shankar",4L);
+//        System.out.println(rowsAffected);
+        patientService.testPatient();
 
 
 
