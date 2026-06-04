@@ -1,5 +1,7 @@
 package com.nithin.HMS.HospitalManagementSystem;
 
+import com.nithin.HMS.HospitalManagementSystem.dto.BloodGroupStats;
+import com.nithin.HMS.HospitalManagementSystem.dto.CPatientInfo;
 import com.nithin.HMS.HospitalManagementSystem.dto.IPatientInfo;
 import com.nithin.HMS.HospitalManagementSystem.entities.PatientEntity;
 import com.nithin.HMS.HospitalManagementSystem.repositories.PatientRepository;
@@ -16,9 +18,19 @@ public class PatientServiceTest {
 
     @Test
     public void testPatient(){
-        List<IPatientInfo> patientInfo = patientRepository.getAllPatientInfo();
-        for(IPatientInfo p:patientInfo){
-            System.out.println(p);
-        }
+//        List<IPatientInfo> patientInfo = patientRepository.getAllPatientInfo();
+
+//        List<CPatientInfo> patientInfo = patientRepository.getAllPatientInfoConcrete();
+
+//        List<BloodGroupStats> bloodGroupStats = patientRepository.getBloodGroupStats();
+//        for(var p:bloodGroupStats){
+//            System.out.println(p);
+//        }
+        int rowsAffected = patientRepository.updatePatientName("Sita Shankar",4L);
+        System.out.println(rowsAffected);
+
+
+
+
     }
 }
