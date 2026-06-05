@@ -1,10 +1,7 @@
 package com.nithin.HMS.HospitalManagementSystem.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +11,8 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
+@Builder
 public class Department {
 
     @Id
@@ -28,5 +27,6 @@ public class Department {
     private Doctor headDoctor;
 
     @ManyToMany
+    @ToString.Exclude
     private List<Doctor> doctors = new ArrayList<>();
 }

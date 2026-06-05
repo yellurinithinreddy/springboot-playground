@@ -1,5 +1,6 @@
 package com.nithin.HMS.HospitalManagementSystem.services;
 
+import com.nithin.HMS.HospitalManagementSystem.entities.Insurance;
 import com.nithin.HMS.HospitalManagementSystem.entities.PatientEntity;
 import com.nithin.HMS.HospitalManagementSystem.repositories.PatientRepository;
 import jakarta.transaction.Transactional;
@@ -23,4 +24,20 @@ public class PatientService {
         System.out.println(p1+" "+p2);
         System.out.println(p1 == p2);
     }
+
+    @Transactional
+    public Insurance savePatient(Insurance insurance,Long patientId){
+        PatientEntity patient = patientRepository.findById(patientId).orElseThrow();
+
+        patient.setInsurance(insurance);
+        return insurance;
+    }
+
+    @Transactional
+    public void deletePatient(Long patientId){
+        patientRepository.findById(patientId).orElseThrow();
+        patientRepository.deleteById(patientId);
+    }
+
+
 }

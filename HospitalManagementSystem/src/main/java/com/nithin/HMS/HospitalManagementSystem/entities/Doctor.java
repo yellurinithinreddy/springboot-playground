@@ -34,6 +34,6 @@ public class Doctor {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "doctor")
+    @OneToMany(mappedBy = "doctor",cascade = CascadeType.ALL)
     private List<Appointment> appointments = new ArrayList<>();
 }

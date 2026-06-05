@@ -1,10 +1,7 @@
 package com.nithin.HMS.HospitalManagementSystem.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -14,6 +11,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "appointments")
+@Builder
+@ToString
 public class Appointment {
 
     @Id
@@ -26,11 +25,11 @@ public class Appointment {
 
     private String status;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.PERSIST})
     @JoinColumn(nullable = false)
     private PatientEntity patient;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.PERSIST})
     @JoinColumn(nullable = false)
     private Doctor doctor;
 
