@@ -1,0 +1,8 @@
+package com.nithin.LMS.LibraryManagementSystem.exceptions;
+
+public class ResourceNotFoundException extends RuntimeException{
+
+    public ResourceNotFoundException(String message){
+        super(message);
+    }
+}
