@@ -50,7 +50,13 @@ public class PatientServiceTest {
 //        }
 //        int rowsAffected = patientRepository.updatePatientName("Sita Shankar",4L);
 //        System.out.println(rowsAffected);
-        patientService.testPatient();
+//        List<PatientEntity> patientEntities = patientRepository.findAll();
+//
+//        for(PatientEntity p:patientEntities) System.out.println(p);
+
+        List<PatientEntity> patientEntities = patientRepository.getAllPatientInfoWithAppointments();
+
+        for(PatientEntity p:patientEntities) System.out.println(p);
 
 
 
@@ -67,7 +73,17 @@ public class PatientServiceTest {
         Insurance savedInsurance = patientService.savePatient(insurance,1L);
         System.out.println(savedInsurance);
 
-        insuranceService.deleteInsurance(savedInsurance.getId());
+//        insuranceService.deleteInsurance(savedInsurance.getId());
+        Insurance insurance1 = Insurance.builder()
+                .provider("Kotak Mico")
+                .policyNumber("KOTAK_143")
+                .validUntil(LocalDate.of(2050, 1,1))
+                .build();
+
+        Insurance savedInsurance1 = patientService.savePatient(insurance1,1L);
+        System.out.println(savedInsurance1);
+
+
     }
 
     @Test

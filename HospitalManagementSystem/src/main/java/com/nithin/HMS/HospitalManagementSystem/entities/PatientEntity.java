@@ -39,12 +39,11 @@ public class PatientEntity {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-    @OneToOne(cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REMOVE})
+    @OneToOne(cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REMOVE},orphanRemoval = true,fetch = FetchType.LAZY)
     @JoinColumn(name = "patient_insurance",unique = true)
     private Insurance insurance;
 
 
-    @OneToMany(mappedBy = "patient",cascade = CascadeType.ALL)
-    @ToString.Exclude
+    @OneToMany(mappedBy = "patient",cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.EAGER)
     private List<Appointment> appointments;
 }

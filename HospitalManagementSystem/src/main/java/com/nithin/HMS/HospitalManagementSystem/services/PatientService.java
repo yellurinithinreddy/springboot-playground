@@ -30,6 +30,7 @@ public class PatientService {
         PatientEntity patient = patientRepository.findById(patientId).orElseThrow();
 
         patient.setInsurance(insurance);
+        insurance.setPatient(patient); //optional
         return insurance;
     }
 
