@@ -19,8 +19,7 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@EntityListeners(AuditingEntityListener.class)
-public class PostEntity {
+public class PostEntity extends AuditableEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,15 +29,27 @@ public class PostEntity {
 
     private String description;
 
-    @CreatedDate
-    private LocalDateTime createdAt;
 
-    @LastModifiedDate
-    private LocalDateTime updatedAt;
+    @PrePersist
+    void beforeSave(){
 
-    @CreatedBy
-    private String createdBy;
+    }
 
-    @LastModifiedBy
-    private String updatedBy;
+
+    @PreUpdate
+    void beforeUpdate(){
+
+    }
+
+    @PreRemove
+    void beforeRemove(){
+
+    }
+
+    @PostRemove
+    void afterRemoval(){
+
+    }
+
+
 }
