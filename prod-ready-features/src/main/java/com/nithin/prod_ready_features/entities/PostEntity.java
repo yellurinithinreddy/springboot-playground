@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -19,6 +21,7 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Audited
 public class PostEntity extends AuditableEntity{
 
     @Id
@@ -27,6 +30,7 @@ public class PostEntity extends AuditableEntity{
 
     private String title;
 
+//    @NotAudited we can use this annotation make this exclude from auditing
     private String description;
 
 
