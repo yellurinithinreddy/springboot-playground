@@ -5,6 +5,8 @@ import com.nithin.prod_ready_features.clients.EmployeeClient;
 import com.nithin.prod_ready_features.dto.EmployeeDTO;
 import com.nithin.prod_ready_features.exceptions.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +21,16 @@ public class EmployeeClientImpl implements EmployeeClient {
 
     private final RestClient restClient;
 
+    Logger log = LoggerFactory.getLogger(EmployeeClientImpl.class);
+
     @Override
     public List<EmployeeDTO> getAllEmployees() {
+
+        log.error("error occured");
+        log.warn("warn occured");
+        log.info("info occured");
+        log.debug("debug occured");
+        log.trace("trace occured");
 
         try{
             ApiResponse<List<EmployeeDTO>> employeeDTOS = restClient.get()
