@@ -33,14 +33,14 @@ class ProdReadyFeaturesApplicationTests {
 	void testGetEmployeeById(){
 
 
-		EmployeeDTO employeeDTO = employeeClient.getEmployeeById(252L);
+		EmployeeDTO employeeDTO = employeeClient.getEmployeeById(100L);
 		System.out.println(employeeDTO);
 	}
 
 	@Test
 	@Order(2)
 	void createEmployee(){
-		EmployeeDTO toBeCreated = new EmployeeDTO(null,"ginga","ginga@gmail.com",23,"ADMIN", LocalDate.of(2024,11,11),25790.4,true);
+		EmployeeDTO toBeCreated = new EmployeeDTO(null,"ginga","ginga@gmail.com",2,"ADMIN", LocalDate.of(2024,11,11),25790.4,true);
 		System.out.println(employeeClient.createEmployee(toBeCreated));
 	}
 
