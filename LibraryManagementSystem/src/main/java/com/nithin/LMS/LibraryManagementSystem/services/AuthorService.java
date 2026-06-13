@@ -10,6 +10,8 @@ import com.nithin.LMS.LibraryManagementSystem.repositories.BookRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,15 +25,21 @@ public class AuthorService {
 
     private final BookRepository bookRepository;
 
+    private final Logger log = LoggerFactory.getLogger(AuthorService.class);
+
     @Transactional
     public AuthorDTO createAuthor(AuthorDTO authorDTO) {
+        log.trace("Started creating Author in the author entity with {}",authorDTO);
         Author author = modelMapper.map(authorDTO,Author.class);
         return modelMapper.map(authorRepository.save(author),AuthorDTO.class);
     }
 
     @Transactional
     public List<AuthorDTO> getAllAuthors() {
+        log.debug("started retrieving authors in getAllAuthors");
         List<Author> authors = authorRepository.findAll();
+
+        log.trace("Succesfully retrieved authors {}",authors);
         return authors.stream()
                 .map(author -> modelMapper.map(author,AuthorDTO.class))
                 .toList();
