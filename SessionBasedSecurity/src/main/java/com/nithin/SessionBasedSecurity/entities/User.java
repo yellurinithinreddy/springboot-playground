@@ -1,4 +1,4 @@
-package com.nithin.SecurityApplication.entities;
+package com.nithin.SessionBasedSecurity.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -17,20 +17,19 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 public class User implements UserDetails {
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    @Column(nullable = false)
+    private String name;
 
     @Column(nullable = false)
     private String email;
 
     @Column(nullable = false)
-    @ToString.Exclude
     private String password;
-
-    @Column(nullable = false)
-    private String name;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
