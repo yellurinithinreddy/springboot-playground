@@ -31,6 +31,9 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
+    private int sessionCount;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();

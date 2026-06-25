@@ -1,10 +1,12 @@
 package com.nithin.SessionBasedSecurity.services;
 
 import com.nithin.SessionBasedSecurity.dto.LoginDTO;
+import com.nithin.SessionBasedSecurity.dto.LoginResponseDTO;
 import com.nithin.SessionBasedSecurity.dto.SignUpDTO;
 import com.nithin.SessionBasedSecurity.dto.UserDTO;
 import com.nithin.SessionBasedSecurity.entities.Session;
 import com.nithin.SessionBasedSecurity.entities.User;
+import com.nithin.SessionBasedSecurity.exceptions.ResourceNotFoundException;
 import com.nithin.SessionBasedSecurity.repositories.SessionRepository;
 import com.nithin.SessionBasedSecurity.repositories.UserRepository;
 import jakarta.validation.Valid;
@@ -28,7 +30,7 @@ public class AuthService {
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
-    private final SessionRepository sessionRepository;
+    private final SessionService sessionService;
     private final AuthenticationManager authenticationManager;
 
     public UserDTO signup(SignUpDTO signUpDTO) {
@@ -43,11 +45,11 @@ public class AuthService {
 
 
     @Transactional
-    public String login(LoginDTO loginDTO) {
-        User user = userRepository.findByEmail(loginDTO.getEmail())
-                .orElseThrow(() -> new BadCredentialsException("please signup before login account doesn not exist with this email: "+loginDTO.getEmail()));
-
-        sessionRepository.deleteByUser_Id(user.getId());
+    public LoginResponseDTO login(LoginDTO loginDTO) {
+//        User user = userRepository.findByEmail(loginDTO.getEmail())
+//                .orElseThrow(() -> new BadCredentialsException("please signup before login account doesn not exist with this email: "+loginDTO.getEmail()));
+//
+//        sessionRepository.deleteByUser_Id(user.getId());
 
 
         Authentication authentication = authenticationManager.authenticate(
@@ -55,14 +57,31 @@ public class AuthService {
         );
 
         User _user = (User) authentication.getPrincipal();
-        String token = jwtService.generateToken(_user);
-        Session session = Session.builder()
-                .user(_user)
-                .token(token)
-                .build();
+        String accessToken = jwtService.generateAccessToken(_user);
+        String refreshToken = jwtService.generateRefreshToken(_user);
+        sessionService.generateSession(_user,refreshToken);
+//        Session session = Session.builder()
+//                .user(_user)
+//                .token(token)
+//                .build();
 
-        sessionRepository.save(session);
-        return token;
+//        sessionRepository.save(session);
+        return new LoginResponseDTO(_user.getId(),accessToken,refreshToken);
 
+    }
+
+    public LoginResponseDTO refresh(String refreshToken) {
+        Long userId = jwtService.getUserIDFromToken(refreshToken);
+        sessionService.validateSession(refreshToken);
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: "+userId));
+        String accessToken = jwtService.generateRefreshToken(user);
+
+        return new LoginResponseDTO(userId,accessToken,refreshToken);
+
+    }
+
+    public void logout(Long userId) {
+        sessionService.removeSessions(userId);
     }
 }

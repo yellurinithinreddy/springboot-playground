@@ -2,6 +2,7 @@ package com.nithin.SessionBasedSecurity.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,4 +21,7 @@ public class SignUpDTO {
 
     @NotBlank(message = "password is required to signup")
     private String password;
+
+    @NotNull(message = "user login count is required")
+    private int sessionCount;
 }

@@ -43,10 +43,10 @@ public class JwtFilter extends OncePerRequestFilter {
             String token = authHeader.split("Bearer ")[1];
             Long userId = jwtService.getUserIDFromToken(token);
 
-            Session session = sessionRepository.findByUser_Id(userId)
-                    .orElseThrow(() -> new SessionNotFoundException("Other user might have logged in with this user id:"+userId));
-
-            if(!session.getToken().equals(token)) throw new SessionNotFoundException("Other user might have logged in with this user id:"+userId);
+//            Session session = sessionRepository.findByUser_Id(userId)
+//                    .orElseThrow(() -> new SessionNotFoundException("Other user might have logged in with this user id:"+userId));
+//
+//            if(!session.getToken().equals(token)) throw new SessionNotFoundException("Other user might have logged in with this user id:"+userId);
 
             if(userId != null && SecurityContextHolder.getContext().getAuthentication() == null){
                 User user = userRepository.findById(userId)

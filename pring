@@ -1,0 +1,47 @@
+[33m9dd80cf[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m Implemented session based auth using refresh jwt token and Oauth2 authentication
+[33ma31b4da[m Implemented session based auth using refresh jwt token and Oauth2 authentication
+[33m6f1e37d[m Implemented session based auth using refresh jwt token and Oauth2 authentication
+[33meb40d62[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Implemented session based auth using JWT
+[33m309bae6[m Added signup and login API and crated jwt after successful login and returned it
+[33mc1b42be[m added envers auditing and implemented an API for admins audit
+[33mb1a4b76[m Added swagger, open api and basic auditing
+[33mf5fa055[m added auditing and logging
+[33mdeffbba[m Implementation of calling third party API from own application using Rest Client
+[33mcbbdedf[m aded spring boot actuator which provides metrics and a lot else about application
+[33m110598c[m added logback-spring file as logging config and used log formatter to format logs by logging.pattern
+[33m0557bc7[m Added logger
+[33m2ab4e0d[m added rest client and built API that do inter service communication
+[33madaca76[m added the lifecycle methods for database which get triggered in AuditingEntityListener class while creating and updating
+[33m03c7562[m Implemented auditing without base class
+[33m3bf48fe[m Created this project to implement prod ready features , first one added is spring-boot-devtools
+[33m718f332[m built Library management system with few API's
+[33m8d57ea6[m spring data jpa project findings
+[33ma806a92[m added all the mapping annotations and understood cascadign type by implementing
+[33me9d1d18[m created all mappings and set up the entities
+[33md363bbd[m implemented projection using class and also included aggregate funtions and also executed updated statemnts
+[33med651cd[m retrieving only needed details from database using projection in JPA
+[33m44efc8f[m implemented pagination
+[33me445a46[m sort and pageable implementations
+[33m0ae3b00[m learnt how to write method names that work with hibernate without writing queries
+[33m066ef08[m created sutom annotation which validates password
+[33me75dd77[m Created custom annotation which checks primenumber or not
+[33ma26cab8[m added deparment and APIresponse and global response handler
+[33m0ab92c5[m we can handle every Exception in general using this Exception handler
+[33mf2716c8[m added suberrors to ApiError to display input validation error too
+[33m54ebdcf[m added global exception handler
+[33m73e9997[m added exception handler in controller to handle no such element exception
+[33mdb2723b[m created custom annotation to validate Role
+[33mb33a258[m added validation annotations to check data before imserting
+[33m9a32e1c[m patch and put mappings and added response entity as per production applications
+[33m61919e6[m Created service layer between controller and repository layers
+[33m573720e[m file db added instead of in memory db
+[33m617ae92[m request body annotation to send complex data other than primitives
+[33m0af499d[m path variable and request param
+[33me4e2173[m Rest API implementations
+[33m6490c75[m dependency injection learning
+[33m7c2fe01[m take all beans into Map and and inject, use them
+[33m3e0ba78[m qualifier, primary and condtional on property
+[33m7fac6d0[m added Bean life cycle methods
+[33me28c342[m Merge branch 'main' of github.com:yellurinithinreddy/springboot-playground
+[33mfb0a469[m Initial commit: setup springboot learning repo - first project
+[33m1f67f1f[m Initial commit
