@@ -17,6 +17,6 @@ public class SignUpDTO {
     @Email(message = "email should be valid")
     private String email;
 
-    @NotBlank(message = "password is required")
+//    @NotBlank(message = "password is required")
     private String password;
 }

@@ -1,10 +1,12 @@
 package com.nithin.SecurityApplication.services;
 
 import com.nithin.SecurityApplication.dto.LoginDTO;
+import com.nithin.SecurityApplication.dto.LoginResponseDTO;
 import com.nithin.SecurityApplication.dto.SignUpDTO;
 import com.nithin.SecurityApplication.dto.UserDTO;
 import com.nithin.SecurityApplication.entities.User;
 import com.nithin.SecurityApplication.repositories.UserRepository;
+import com.nithin.SecurityApplication.services.impl.UserService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,10 +22,12 @@ import org.springframework.stereotype.Service;
 public class AuthService {
 
     private final UserRepository userRepository;
+    private final UserService userService;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
+    private final SessionService sessionService;
 
     public UserDTO signup(SignUpDTO signUpDTO) {
 
@@ -38,11 +42,25 @@ public class AuthService {
 
     }
 
-    public String login(LoginDTO loginDTO) {
+    public LoginResponseDTO login(LoginDTO loginDTO) {
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getEmail(),loginDTO.getPassword()));
 
         User user = (User) authentication.getPrincipal();
-        return jwtService.generateToken(user);
+        String accessToken = jwtService.generateAccessToken(user);
+        String refreshToken = jwtService.generateRefreshToken(user);
+        sessionService.generateSession(user,refreshToken);
+
+        return new LoginResponseDTO(user.getId(),accessToken,refreshToken);
+    }
+
+    public LoginResponseDTO refresh(String refreshToken) {
+        Long userId = jwtService.getId(refreshToken);
+        sessionService.validateSession(refreshToken);
+        User user = userService.getUser(userId);
+        String accessToken = jwtService.generateAccessToken(user);
+
+        return new LoginResponseDTO(user.getId(),accessToken,refreshToken);
+
     }
 }

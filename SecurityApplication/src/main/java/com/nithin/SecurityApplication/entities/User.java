@@ -16,17 +16,15 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@Builder
 public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false)
-    @ToString.Exclude
     private String password;
 
     @Column(nullable = false)

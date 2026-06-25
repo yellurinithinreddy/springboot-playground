@@ -20,13 +20,22 @@ public class JwtService {
     @Value("${jwt.secret.key}")
     private String jwtSecretKey;
 
-    public String generateToken(User user){
+    public String generateAccessToken(User user){
         return Jwts.builder()
                 .subject(user.getId().toString())
                 .claim("email","nithin@gmail.com")
                 .claim("roles", Set.of("ADMIN"))
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis()+1000*60))
+                .expiration(new Date(System.currentTimeMillis()+1000*60*10))
+                .signWith(getKey())
+                .compact();
+    }
+
+    public String generateRefreshToken(User user){
+        return Jwts.builder()
+                .subject(user.getId().toString())
+                .issuedAt(new Date())
+                .expiration(new Date(System.currentTimeMillis()+1000L*60*60*24*30*6))
                 .signWith(getKey())
                 .compact();
     }
