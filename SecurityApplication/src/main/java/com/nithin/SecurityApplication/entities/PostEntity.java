@@ -22,4 +22,8 @@ public class PostEntity {
 
     private String description;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User author;
+
 }

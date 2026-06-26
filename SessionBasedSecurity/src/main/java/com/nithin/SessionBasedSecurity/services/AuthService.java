@@ -75,13 +75,14 @@ public class AuthService {
         sessionService.validateSession(refreshToken);
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: "+userId));
-        String accessToken = jwtService.generateRefreshToken(user);
-
-        return new LoginResponseDTO(userId,accessToken,refreshToken);
+        String newRefreshToken = jwtService.generateRefreshToken(user);
+        String newAccessToken = jwtService.generateAccessToken(user);
+        sessionService.generateSession(user,newRefreshToken);
+        return new LoginResponseDTO(userId,newAccessToken,newRefreshToken);
 
     }
 
-    public void logout(Long userId) {
-        sessionService.removeSessions(userId);
+    public void logout(String refreshToken) {
+        sessionService.removeCurrentSession(refreshToken);
     }
 }

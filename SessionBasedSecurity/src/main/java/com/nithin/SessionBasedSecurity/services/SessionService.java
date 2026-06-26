@@ -42,11 +42,11 @@ public class SessionService {
                 .orElseThrow(() -> new SessionAuthenticationException("Session with id is not found"+refreshToken));
 
         session.setLastUsedAt(LocalDateTime.now());
+        sessionRepository.delete(session);
     }
 
     @Transactional
-    public void removeSessions(Long userId) {
-        List<Session> sessions = sessionRepository.findByUser_Id(userId);
-        sessionRepository.deleteAll(sessions);
+    public void removeCurrentSession(String refreshToken) {
+        sessionRepository.deleteByRefreshToken(refreshToken);
     }
 }

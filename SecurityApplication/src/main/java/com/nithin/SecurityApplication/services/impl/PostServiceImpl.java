@@ -2,11 +2,13 @@ package com.nithin.SecurityApplication.services.impl;
 
 import com.nithin.SecurityApplication.dto.PostDTO;
 import com.nithin.SecurityApplication.entities.PostEntity;
+import com.nithin.SecurityApplication.entities.User;
 import com.nithin.SecurityApplication.exceptions.ResourceNotFoundException;
 import com.nithin.SecurityApplication.repositories.PostRepository;
 import com.nithin.SecurityApplication.services.PostService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +24,9 @@ public class PostServiceImpl implements PostService {
     @Override
     @Transactional
     public PostDTO create(PostDTO postDTO) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         PostEntity toBeSaved = modelMapper.map(postDTO,PostEntity.class);
+        toBeSaved.setAuthor(user);
         return modelMapper.map(postRepository.save(toBeSaved),PostDTO.class);
     }
 

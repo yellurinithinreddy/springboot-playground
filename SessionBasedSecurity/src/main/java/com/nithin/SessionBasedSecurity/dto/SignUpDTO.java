@@ -1,11 +1,14 @@
 package com.nithin.SessionBasedSecurity.dto;
 
+import com.nithin.SessionBasedSecurity.entities.enums.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -24,4 +27,6 @@ public class SignUpDTO {
 
     @NotNull(message = "user login count is required")
     private int sessionCount;
+
+    private Set<Role> roles;
 }

@@ -53,7 +53,7 @@ public class JwtFilter extends OncePerRequestFilter {
                         .orElseThrow(() -> new ResourceNotFoundException("user with this id not found: "+userId));
 
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-                        user,null,null
+                        user,null,user.getAuthorities()
                 );
                 usernamePasswordAuthenticationToken.setDetails(
                         new WebAuthenticationDetailsSource().buildDetails(request)

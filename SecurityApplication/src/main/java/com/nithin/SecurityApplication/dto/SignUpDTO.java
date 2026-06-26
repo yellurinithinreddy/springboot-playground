@@ -1,10 +1,13 @@
 package com.nithin.SecurityApplication.dto;
 
+import com.nithin.SecurityApplication.enums.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -19,4 +22,6 @@ public class SignUpDTO {
 
 //    @NotBlank(message = "password is required")
     private String password;
+
+    private Set<Role> roles;
 }

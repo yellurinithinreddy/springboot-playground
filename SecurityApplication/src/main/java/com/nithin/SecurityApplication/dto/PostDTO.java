@@ -17,4 +17,6 @@ public class PostDTO {
 
     @NotBlank(message = "Description is required")
     private String description;
+
+    private UserDTO author;
 }

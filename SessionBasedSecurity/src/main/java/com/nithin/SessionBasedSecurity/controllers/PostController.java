@@ -5,6 +5,7 @@ import com.nithin.SessionBasedSecurity.services.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,16 +19,20 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping
+    @PreAuthorize("hasRole('PREMIUM')")
     public ResponseEntity<PostDTO> createPost(@RequestBody PostDTO postDTO){
         return ResponseEntity.status(HttpStatus.CREATED).body(postService.createPost(postDTO));
     }
 
+
     @GetMapping("/{postId}")
+    @PreAuthorize("hasAnyRole('BASIC','PREMIUM')")
     public ResponseEntity<PostDTO> getPostById(@PathVariable Long postId){
         return ResponseEntity.status(HttpStatus.OK).body(postService.getPost(postId));
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('FREE', 'BASIC', 'PREMIUM')")
     public ResponseEntity<List<PostDTO>> getPosts(){
         return ResponseEntity.status(HttpStatus.OK).body(postService.getPosts());
     }

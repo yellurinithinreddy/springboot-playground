@@ -29,7 +29,7 @@ public class JwtService {
                 .subject(String.valueOf(user.getId()))
                 .claim("email","nithin@gmail.com")
                 .claim("roles",Set.of("ADMIN"))
-                .expiration(new Date(System.currentTimeMillis() + 1000*60))
+                .expiration(new Date(System.currentTimeMillis() + 1000*60*10))
                 .issuedAt(new Date())
                 .signWith(getSecretKey())
                 .compact();

@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationServiceException;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -41,7 +42,6 @@ public class AuthController {
 
     }
 
-
     @PostMapping("/refresh")
     public ResponseEntity<LoginResponseDTO> refresh(HttpServletRequest request){
         String refreshToken = Arrays.stream(request.getCookies())
@@ -53,10 +53,22 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.OK).body(authService.refresh(refreshToken));
     }
 
-    @DeleteMapping("/logout/{userId}")
-    public ResponseEntity<Void> logout(@PathVariable Long userId){
-        authService.logout(userId);
-        return ResponseEntity.notFound().build();
+    @DeleteMapping("/logout")
+    public ResponseEntity<Void> logout(HttpServletRequest req,HttpServletResponse res){
+        Cookie cookie = Arrays.stream(req.getCookies())
+                        .filter(c -> "refreshToken".equals(c.getName()))
+                        .findFirst()
+                                .orElseThrow(() -> new AuthenticationServiceException("Refresh token not found"));
+
+        String refreshToken = cookie.getValue();
+        cookie.setValue("");
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge(0);
+        res.addCookie(cookie);
+
+
+        authService.logout(refreshToken);
+        return ResponseEntity.noContent().build();
     }
 
 
