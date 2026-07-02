@@ -29,17 +29,17 @@ public class AuthorService {
 
     @Transactional
     public AuthorDTO createAuthor(AuthorDTO authorDTO) {
-        log.trace("Started creating Author in the author entity with {}",authorDTO);
+        log.info("Started creating Author in the author entity with {}",authorDTO);
         Author author = modelMapper.map(authorDTO,Author.class);
         return modelMapper.map(authorRepository.save(author),AuthorDTO.class);
     }
 
     @Transactional
     public List<AuthorDTO> getAllAuthors() {
-        log.debug("started retrieving authors in getAllAuthors");
+        log.info("started retrieving authors in getAllAuthors");
         List<Author> authors = authorRepository.findAll();
 
-        log.trace("Succesfully retrieved authors {}",authors);
+        log.info("Succesfully retrieved authors {}",authors);
         return authors.stream()
                 .map(author -> modelMapper.map(author,AuthorDTO.class))
                 .toList();
@@ -56,10 +56,17 @@ public class AuthorService {
 
     @Transactional
     public AuthorDTO updateAuthor(Long id, AuthorDTO authorDTO) {
-        Author author = modelMapper.map(authorDTO,Author.class);
-        author.setId(id);
+
+        Author author = authorRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Author not found with id: "+id));
+        if(!author.getAuthorName().equals(authorDTO.getAuthorName())){
+            throw new RuntimeException("Author name cannot be updated");
+        }
+        authorDTO.setId(id);
+        modelMapper.map(authorDTO,author);
         return modelMapper.map(authorRepository.save(author),AuthorDTO.class);
     }
+
     @Transactional
     public Boolean deleteAuthor(Long authorId) {
         authorRepository.findById(authorId).orElseThrow(() ->{

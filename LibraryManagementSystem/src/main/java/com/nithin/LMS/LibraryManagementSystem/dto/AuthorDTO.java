@@ -18,5 +18,7 @@ public class AuthorDTO {
 
     private String authorName;
 
+    private int authorAge;
+
     private List<Book> books;
 }

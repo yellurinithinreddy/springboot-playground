@@ -47,8 +47,14 @@ public class BookService {
 
     @Transactional
     public BookDTO updateBook(Long bookId, BookDTO bookDTO) {
-        Book book = modelMapper.map(bookDTO,Book.class);
-        book.setId(bookId);
+        Book book = bookRepository.findById(bookId)
+                        .orElseThrow(() -> new ResourceNotFoundException("Book not found with id: "+bookId));
+
+        if(!book.getTitle().equals(bookDTO.getTitle())){
+            throw new RuntimeException("book title cannot be changed");
+        }
+        bookDTO.setId(bookId);
+        modelMapper.map(bookDTO,book);
         return modelMapper.map(bookRepository.save(book),BookDTO.class);
     }
 

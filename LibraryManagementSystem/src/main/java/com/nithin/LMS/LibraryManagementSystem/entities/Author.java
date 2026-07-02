@@ -1,10 +1,7 @@
 package com.nithin.LMS.LibraryManagementSystem.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.envers.Audited;
 
 import java.util.ArrayList;
@@ -16,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Audited
+@Builder
 public class Author extends AuditingEntity{
 
     @Id
@@ -24,6 +22,9 @@ public class Author extends AuditingEntity{
 
     private String authorName;
 
+    private int authorAge;
+
     @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true,mappedBy = "author")
+    @Builder.Default
     private List<Book> books = new ArrayList<>();
 }
