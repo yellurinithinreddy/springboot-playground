@@ -14,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @Audited
 @Builder
+@ToString
 public class Author extends AuditingEntity{
 
     @Id

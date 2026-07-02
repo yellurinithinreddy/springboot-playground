@@ -173,6 +173,40 @@ class AuthorControllerTest {
     }
 
     @Test
+    void testGetBooksWrittenByAuthor_whenBooksArePresent_thenReturnBooks(){
+        Author savedAuthor = authorRepository.save(author);
+        Book savedbook = bookRepository.save(book);
+
+        book.setAuthor(savedAuthor);
+        savedAuthor.getBooks().add(savedbook);
+
+        authorRepository.save(author);
+
+        webTestClient.get()
+                .uri("/authors/{authorId}/books",savedAuthor.getId())
+                .exchange()
+                .expectStatus().isOk()
+                .expectBodyList(BookDTO.class)
+                .value(books ->{
+                    assertThat(books).isNotEmpty();
+                    assertThat(books).hasSize(1);
+                    assertThat(books.get(0).getTitle()).isEqualTo(savedbook.getTitle());
+                    assertThat(books.get(0).getPublishedDate()).isEqualTo(savedbook.getPublishedDate());
+                });
+
+//        webTestClient.get()
+//                .uri("/authors/{authorId}/books",savedAuthor.getId())
+//                .exchange()
+//                .expectStatus().isOk()
+//                .expectBodyList(String.class)
+//                .consumeWith(res ->{
+//                    System.out.println(res.getStatus());
+//                    System.out.println(res.getResponseBody());
+//                });
+
+    }
+
+    @Test
     void testGetAuthorsByName_whenAuthorsArePresent_thenReturnAuthors(){
         Author savedAuthor = authorRepository.save(author);
 
@@ -203,27 +237,6 @@ class AuthorControllerTest {
                 });
     }
 
-
-    @Test
-    void testGetBooksWrittenByAuthor_whenBooksArePresent_thenReturnBooks(){
-        Author savedAuthor = authorRepository.save(author);
-        Book savedbook = bookRepository.save(book);
-
-        savedAuthor.getBooks().add(savedbook);
-
-        webTestClient.get()
-                .uri("/authors/{authorId}/books",savedAuthor.getId())
-                .exchange()
-                .expectStatus().isOk()
-                .expectBodyList(BookDTO.class)
-                .value(books ->{
-                    assertThat(books).isNotEmpty();
-                    assertThat(books).hasSize(1);
-                    assertThat(books.get(0).getTitle()).isEqualTo(savedbook.getTitle());
-                    assertThat(books.get(0).getPublishedDate()).isEqualTo(savedbook.getPublishedDate());
-                });
-
-    }
     @Test
     void testGetBooksWrittenByAuthor_whenBooksAreNotPresent_thenReturnEmptyListOfBooks(){
         Author savedAuthor = authorRepository.save(author);
@@ -277,7 +290,71 @@ class AuthorControllerTest {
     }
 
     @Test
-    void testUpdateAuthorById_
+    void testUpdateAuthorById_whenAuthorIsNotPresent_thenThrowException(){
+        webTestClient.put()
+                .uri("/authors/1")
+                .bodyValue(authorDTO)
+                .exchange()
+                .expectStatus().isNotFound();
+    }
+
+    @Test
+    void testUpdateAuthorById_whenAttemptedToChangeAuthorName_thenThrowException(){
+        Author savedAuthor = authorRepository.save(author);
+        authorDTO.setAuthorName("Lobian");
+        authorDTO.setAuthorAge(64);
+
+        webTestClient.put()
+                .uri("/authors/{authorId}",savedAuthor.getId())
+                .bodyValue(authorDTO)
+                .exchange()
+                .expectStatus().is5xxServerError();
+    }
+
+    @Test
+    void testUpdateAuthorById_whenAuthorIsPresent_thenReturnAuthor(){
+        Author savedAuthor = authorRepository.save(author);
+        authorDTO.setAuthorAge(64);
+
+        webTestClient.put()
+                .uri("/authors/{authorId}",savedAuthor.getId())
+                .bodyValue(authorDTO)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody()
+                .jsonPath("$.authorAge").isEqualTo(authorDTO.getAuthorAge())
+                .jsonPath("$.authorName").isEqualTo(authorDTO.getAuthorName());
+
+//        webTestClient.put()
+//                .uri("/authors/{authorId}",savedAuthor.getId())
+//                .bodyValue(authorDTO)
+//                .exchange()
+//                .expectBody(String.class)
+//                .consumeWith(res ->{
+//                    System.out.println(res.getStatus());
+//                    System.out.println(res.getResponseBody());
+//                });
+    }
+
+    @Test
+    void testDeleteAuthorById_whenAuthorIsPresent_thenDeleteAuthor(){
+        Author savedAuthor = authorRepository.save(author);
+
+        webTestClient.delete()
+                .uri("authors/{authorId}",savedAuthor.getId())
+                .exchange()
+                .expectStatus().isOk();
+
+    }
+    @Test
+    void testDeleteAuthorById_whenAuthorIsNotPresent_thenThrowException(){
+
+        webTestClient.delete()
+                .uri("authors/1")
+                .exchange()
+                .expectStatus().isNotFound();
+
+    }
 
 
 }

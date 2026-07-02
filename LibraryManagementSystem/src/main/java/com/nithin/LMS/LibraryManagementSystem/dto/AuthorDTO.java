@@ -6,12 +6,15 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class AuthorDTO {
 
     private Long id;
@@ -20,5 +23,6 @@ public class AuthorDTO {
 
     private int authorAge;
 
-    private List<Book> books;
+    private List<BookDTO> books = new ArrayList<>();
+
 }

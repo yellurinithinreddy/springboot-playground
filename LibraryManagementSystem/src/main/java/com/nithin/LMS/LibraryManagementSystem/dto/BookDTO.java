@@ -1,6 +1,7 @@
 package com.nithin.LMS.LibraryManagementSystem.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nithin.LMS.LibraryManagementSystem.entities.Author;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,5 +20,6 @@ public class BookDTO {
 
     private LocalDate publishedDate;
 
-    private Author author;
+    @JsonIgnore
+    private AuthorDTO author;
 }
