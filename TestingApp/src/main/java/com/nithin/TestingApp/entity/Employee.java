@@ -20,7 +20,10 @@ public class Employee {
     @Column(unique = true)
     private String email;
 
-    private String name;
+    private String fullName;
 
     private Long salary;
+
+    @ManyToOne
+    private Department department;
 }
