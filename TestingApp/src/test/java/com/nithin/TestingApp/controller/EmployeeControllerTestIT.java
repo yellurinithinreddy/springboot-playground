@@ -40,7 +40,7 @@ class EmployeeControllerTest extends AbstractIntegrationTest{
     @BeforeEach
     void setUp(){
         employee = Employee.builder()
-                .name("Nithin")
+                .fullName("Nithin")
                 .email("nithin@gmail.com")
                 .salary(1000L)
                 .build();
@@ -60,7 +60,7 @@ class EmployeeControllerTest extends AbstractIntegrationTest{
                 .expectStatus().isOk()
                 .expectBody(EmployeeDTO.class) // withput converting into dto we can use jsonPath to cgeck raw json
                 .value(employeeDTO1 -> {
-                    assertThat(employeeDTO1.getName()).isEqualTo(savedEmployee.getName());
+                    assertThat(employeeDTO1.getName()).isEqualTo(savedEmployee.getFullName());
                     assertThat(employeeDTO1.getSalary()).isEqualTo(savedEmployee.getSalary());
                     assertThat(employeeDTO1.getId()).isEqualTo(savedEmployee.getId());
                 });
@@ -96,7 +96,7 @@ class EmployeeControllerTest extends AbstractIntegrationTest{
                 .exchange()
                 .expectStatus().isCreated()
                 .expectBody()
-                .jsonPath("$.name").isEqualTo(employee.getName())
+                .jsonPath("$.name").isEqualTo(employee.getFullName())
                 .jsonPath("$.email").isEqualTo(employee.getEmail());
     }
 
