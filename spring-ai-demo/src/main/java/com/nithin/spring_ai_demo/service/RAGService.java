@@ -1,8 +1,14 @@
 package com.nithin.spring_ai_demo.service;
 
+import com.nithin.spring_ai_demo.advisor.TokenUsageAdvisor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
+import org.springframework.ai.chat.client.advisor.SafeGuardAdvisor;
 import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
+import org.springframework.ai.chat.client.advisor.vectorstore.QuestionAnswerAdvisor;
+import org.springframework.ai.chat.client.advisor.vectorstore.VectorStoreChatMemoryAdvisor;
+import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.embedding.EmbeddingModel;
@@ -27,9 +33,46 @@ public class RAGService {
     private final ChatClient chatClient;
     private final EmbeddingModel embeddingModel;
 
+    private final ChatMemory chatMemory;
 
     @Value("classpath:springboot_interview_faq.pdf")
     private Resource pdf;
+
+
+    public String askAiWithAdvisors(String prompt){
+
+        String template = """
+                You are an AI assistant called Cody
+                Greet users with you name (Cody) and the user name if you know their name.
+                Answer in a friendly conversational tone.
+                """;
+        VectorStoreChatMemoryAdvisor memoryAdvisor = VectorStoreChatMemoryAdvisor.builder(vectorStore)
+                .defaultTopK(3)
+                .build();
+
+        MessageChatMemoryAdvisor messageChatMemoryAdvisor = MessageChatMemoryAdvisor.builder(chatMemory)
+                .build();
+
+        QuestionAnswerAdvisor questionAnswerAdvisor = QuestionAnswerAdvisor.builder(vectorStore)
+                .searchRequest(SearchRequest.builder()
+                        .topK(4)
+                        .filterExpression("file_name == 'springboot_interview_faq.pdf'")
+                        .build())
+                .build();
+
+//        SafeGuardAdvisor safeGuardAdvisor = new SafeGuardAdvisor(List.of("Sex","Violence","Vulgarity","Cuss words"));
+        TokenUsageAdvisor tokenUsageAdvisor = new TokenUsageAdvisor();
+        return chatClient.prompt()
+                .system(template)
+                .user(prompt)
+                .advisors(advisor -> advisor.
+                        advisors(tokenUsageAdvisor,messageChatMemoryAdvisor,memoryAdvisor,questionAnswerAdvisor)
+                        .param(ChatMemory.CONVERSATION_ID,"nithin123")
+                )
+                .call()
+                .content();
+    }
+
     public String giveAnswerBasedOnTheData(String question){
         String template = """
                 You are an Assistant that helps a person to answer his questions based on the context given.

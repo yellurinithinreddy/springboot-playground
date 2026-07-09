@@ -23,4 +23,10 @@ class RAGServiceTest {
         ragService.ingestPdfData();
     }
 
+
+    @Test
+    public void testAskAiWithAdvisors(){
+        String res = ragService.askAiWithAdvisors("What is circular dependency?");
+        System.out.println(res);
+    }
 }
