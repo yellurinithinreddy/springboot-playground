@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: Poem-GPT
+
+
+logging:
+  level:
+    org.springframework.ai:
+      chat.client: DEBUG
+

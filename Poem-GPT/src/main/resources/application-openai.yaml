@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: Poem-GPT
+
+  autoconfigure:
+    exclude:
+      - org.springframework.ai.model.ollama.autoconfigure.OllamaChatAutoConfiguration
+
+  ai:
+    openai:
+      api-key: ${GROQ_API_KEY}
+      base-url: https://api.groq.com/openai/v1
+      chat:
+        options:
+          model: llama-3.3-70b-versatile
+          temperature: 0.8
+
+    ollama:
+      chat:
+        enabled: false
