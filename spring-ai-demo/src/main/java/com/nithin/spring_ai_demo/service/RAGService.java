@@ -1,6 +1,8 @@
 package com.nithin.spring_ai_demo.service;
 
 import com.nithin.spring_ai_demo.advisor.TokenUsageAdvisor;
+import com.nithin.spring_ai_demo.tools.FlightBookingTools;
+import com.nithin.spring_ai_demo.tools.TravellingTools;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
@@ -32,6 +34,8 @@ public class RAGService {
     private final VectorStore vectorStore;
     private final ChatClient chatClient;
     private final EmbeddingModel embeddingModel;
+    private final TravellingTools travellingTools;
+    private final FlightBookingTools flightBookingTools;
 
     private final ChatMemory chatMemory;
 
@@ -142,5 +146,30 @@ public class RAGService {
         List<Document> chunks = splitter.apply(docs);
 
         vectorStore.add(chunks);
+    }
+
+
+    public String findWeather(String find,String userId){
+        MessageChatMemoryAdvisor messageChatMemoryAdvisor = MessageChatMemoryAdvisor.builder(chatMemory)
+                .build();
+
+        String systemPrompt = String.format("""
+                You are friendly flight booking assistant.
+                Use the available tools to create , view , or update bookings
+                Always confirm actions with the user whe possible.
+                
+                IMPORTANT: The user current ID is "%s".
+                when calling tools that require a userId, ALWAYS use this exact value
+                """,userId);
+        return chatClient.prompt()
+                .system(systemPrompt)
+                .user(find)
+                .advisors(advisor -> advisor
+                        .advisors(messageChatMemoryAdvisor)
+                        .param(ChatMemory.CONVERSATION_ID,userId)
+                )
+                .tools(travellingTools,flightBookingTools)
+                .call()
+                .content();
     }
 }

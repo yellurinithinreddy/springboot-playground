@@ -26,13 +26,13 @@ spring:
     username: user
     password: pass
     driver-class-name: org.postgresql.Driver
-#  jpa:
-#    hibernate:
-#      ddl-auto: update
-#      show-sql: true
-#      properties:
-#        jdbc:
-#          timezone: Asia/Kolkata
+  jpa:
+    hibernate:
+      ddl-auto: update
+      show-sql: true
+      properties:
+        jdbc:
+          timezone: Asia/Kolkata
 
 logging:
   level:
