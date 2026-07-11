@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: EmployeeHandBook
+
+  ai:
+    ollama:
+      base-url: http://localhost:11434
+      chat:
+        options:
+          model: qwen3:14b
+      embedding:
+        options:
+          model: nomic-embed-text
+    vectorstore:
+      pgvector:
+        initialize-schema: true
+        dimensions: 768
+  datasource:
+    url: jdbc:postgresql://localhost:9000/nithin
+    username: nithin
+    password: password
+    driver-class-name: org.postgresql.Driver
