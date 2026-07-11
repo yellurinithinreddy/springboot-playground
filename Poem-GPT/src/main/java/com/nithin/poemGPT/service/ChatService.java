@@ -3,6 +3,7 @@ package com.nithin.poemGPT.service;
 import com.nithin.poemGPT.dto.Poem;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.embedding.EmbeddingModel;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 public class ChatService {
 
     private final ChatClient chatClient;
+    private final EmbeddingModel embeddingModel;
 
     public Poem poem(String topic, String lang) {
         return chatClient.prompt()
