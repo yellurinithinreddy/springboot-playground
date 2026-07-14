@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: SafeAssistant
+
+  ai:
+    openai:
+      api-key: ${GROQ_API_KEY}
+      base-url: https://api.groq.com/openai/v1
+      chat:
+        options:
+          model: llama-3.3-70b-versatile
+          temperature: 0.3
+    chat:
+      memory:
+        repository:
+          jdbc:
+            initialize-schema: always
+            table-name: chat_memory
+  datasource:
+    url: jdbc:postgresql://localhost:9000/nithin
+    username: nithin
+    password: password
+    driver-class-name: org.postgresql.Driver
+
+
+logging:
+  level:
+    org.springframework.ai:
+      chat.client: DEBUG
