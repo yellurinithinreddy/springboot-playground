@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: CustomerSupportAgent
+
+  ai:
+    ollama:
+      base-url: http://localhost:11434
+      chat:
+        options:
+          model: qwen3:14b
+      embedding:
+        options:
+          model: nomic-embed-text
+
+
+    vectorstore:
+      pgvector:
+        initialize-schema: true
+
+  datasource:
+    url: jdbc:postgresql://localhost:9000/nithin
+    username: nithin
+    password: password
+    driver-class-name: org.postgresql.Driver
