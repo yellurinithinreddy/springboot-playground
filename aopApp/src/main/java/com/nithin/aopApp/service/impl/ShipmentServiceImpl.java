@@ -11,7 +11,7 @@ public class ShipmentServiceImpl implements ShipmentService {
 
 
     @Override
-    public void orderPackage(Long orderId) {
+    public String orderPackage(Long orderId) {
         try{
             log.info("Processing order Package");
             Thread.sleep(1000);
@@ -19,17 +19,18 @@ public class ShipmentServiceImpl implements ShipmentService {
         catch(Exception ex){
             log.error("Exception occured");
         }
+        return "Order package with order: "+orderId;
     }
 
     @Override
     @MyLogging
-    public void trackPackage(Long orderId) {
+    public String trackPackage(Long orderId) {
         try{
             log.info("Tracking order Package");
             throw new RuntimeException("package could not be tracked");
         }
         catch(Exception ex){
-            log.error("Exception occured: {}",ex.getMessage());
+            throw new RuntimeException(ex);
         }
     }
 }

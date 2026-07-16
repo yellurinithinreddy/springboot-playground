@@ -2,7 +2,7 @@ package com.nithin.aopApp.service;
 
 public interface ShipmentService {
 
-    void orderPackage(Long orderId);
+    String orderPackage(Long orderId);
 
-    void trackPackage(Long orderId);
+    String trackPackage(Long orderId);
 }

@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: aopImplementation
+
+jwt:
+  master-key: kdfjbvdklmvnbeslkdnfvsdlkfbeslkfndksdhfb
+
+#  jpa:
+#    hibernate:
+#      properties:
+#        ddl-auto: create
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
