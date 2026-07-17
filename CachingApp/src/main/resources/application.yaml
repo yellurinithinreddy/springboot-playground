@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: CachingApp
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/caching-db?useSSL=false
+    username: root
+    password: Nithinreddy9491$
+
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+  cache:
+    type: redis
+#  data:
+#    redis:
+#      host: localhost
+#      port: 6379
+  data:
+    redis:
+      host: slip-metal-stream-52840.db.redis.io
+      port: 14953
+      password: IV3FzdCl5pvMldVo0T11XrAhkduQwgrU
+
+
