@@ -2,7 +2,9 @@ package com.nithin.CachingApp.controller;
 
 
 import com.nithin.CachingApp.dto.EmployeeDTO;
+import com.nithin.CachingApp.entity.SalaryAccount;
 import com.nithin.CachingApp.service.EmployeeService;
+import com.nithin.CachingApp.service.SalaryAccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 public class EmployeeController {
 
     private final EmployeeService employeeService;
+    private final SalaryAccountService salaryAccountService;
 
     @GetMapping("/{employeeId}")
     public ResponseEntity<EmployeeDTO> getEmployeeById(@PathVariable Long employeeId){
@@ -34,6 +37,11 @@ public class EmployeeController {
     public ResponseEntity<Void> deleteEmployee(@PathVariable Long employeeId){
         employeeService.deleteEmployee(employeeId);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/incrementBalance/{accountId}")
+    public ResponseEntity<SalaryAccount> addBalance(@PathVariable Long accountId){
+        return ResponseEntity.ok(salaryAccountService.incrementBalance(accountId));
     }
 
 

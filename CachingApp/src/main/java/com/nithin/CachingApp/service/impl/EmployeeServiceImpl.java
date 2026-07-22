@@ -3,9 +3,11 @@ package com.nithin.CachingApp.service.impl;
 
 import com.nithin.CachingApp.dto.EmployeeDTO;
 import com.nithin.CachingApp.entity.Employee;
+import com.nithin.CachingApp.entity.SalaryAccount;
 import com.nithin.CachingApp.exception.ResourceNotFoundException;
 import com.nithin.CachingApp.repository.EmployeeRepository;
 import com.nithin.CachingApp.service.EmployeeService;
+import com.nithin.CachingApp.service.SalaryAccountService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -13,6 +15,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -23,6 +26,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
     private final ModelMapper modelMapper;
+
+    private final SalaryAccountService salaryAccountService;
 
     @Override
     @Cacheable(cacheNames = "employees",key = "#employeeId")
@@ -40,6 +45,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     @CachePut(cacheNames = "employees",key = "#result.id")
+    @Transactional
     public EmployeeDTO createEmployee(EmployeeDTO employeeDTO) {
         log.info("Trying to create a new employee");
 
@@ -49,9 +55,9 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw new RuntimeException("Employee with email already exists: "+employeeDTO.getEmail());
         }
         Employee toBeSaved = modelMapper.map(employeeDTO,Employee.class);
-
         Employee savedEmployee = employeeRepository.save(toBeSaved);
-        log.debug("Created new employee: {}",savedEmployee);
+        SalaryAccount salaryAccount = salaryAccountService.create(savedEmployee);
+        log.debug("Created new employee: {},{}",savedEmployee,salaryAccount);
         return modelMapper.map(savedEmployee,EmployeeDTO.class);
     }
 
