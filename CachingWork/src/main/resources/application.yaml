@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: CachingWork
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/caching-work?useSSL=false
+    username: root
+    password: Nithinreddy9491$
+
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+
+weather:
+  api:
+    url: http://api.weatherapi.com/v1/
+    key: ${API_KEY}
