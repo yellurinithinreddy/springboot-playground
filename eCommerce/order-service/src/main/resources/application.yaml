@@ -1,0 +1,82 @@
+management:
+  health:
+    circuitbreakers:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+spring:
+  application:
+    name: order-service
+
+
+
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/ordersdb?useSSL=false
+    username: root
+    password: Nithinreddy9491$
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
+      data-locations: classpath:data.sql
+
+
+server:
+  port: 9040
+  servlet:
+    context-path: /orders
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    prefer-ip-address: true
+#    hostname: localhost
+
+resilience4j:
+  retry:
+    configs:
+      default:
+        maxAttempts: 2
+        waitDuration: 10s
+
+      instances:
+        inventoryRetry:
+          baseConfig: default
+          waitDuration: 15s
+  #        maxAttempts: 3 # When a call is failed , this decides the maximum number of times that method will be called
+  #        waitDuration: 10s # Duration between each method call
+
+  ratelimiter:
+    instances:
+      inventoryRatelimiter:
+        limitRefreshPeriod: 5s #  every 5s the limit will be reset
+        limitForPeriod: 1 # every 5s 1 request is only allowed
+        timeoutDuration: 1s # If the limit reaches in the time period , then if another request is fired then the thread waits for 1s and it call the method if the limit is refreshed otherwise it calls fall back method
+  circuitbreaker:
+    instances:
+      inventoryCircuitBreaker:
+        registerHealthIndicator: true # expose circuit breaker health via actuator
+        slidingWindowType: COUNT_BASED # Can be TIME_BASED also, last slidingWindowSize(10) requests/requests in 10 s) will be taken into consideration for calculating failure rate
+        slidingWindowSize: 10 # size of the window
+        failureRateThreshold: 50 # If 5 out of 10 calls fail the threshold will be 50 % and circuit will be open
+        minimumNumberOfCalls: 10 # The failure rate will only be calculated after the minimum number of calls made
+        waitDurationInOpenState: 5s # It will wait 5s in open state before going into Half open state
+        automaticTransitionFromOpenToHalfOpenEnabled: true # After time finished in open state it will automatically go half open without waiting for a request to come.
+        permittedNumberOfCallsInHalfOpenState: 3 # These number of requests are only when the circuit is half open
+        maxWaitDurationInHalfOpenState: 0ms # defines how much time the circuit stays in half open state. 0 means it stays infinitely until all the permitted calls are finished in half open state
+        eventConsumerBufferSize: 10
+
+
