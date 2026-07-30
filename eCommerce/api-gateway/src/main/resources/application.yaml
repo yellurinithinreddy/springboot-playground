@@ -26,6 +26,13 @@ spring:
                 - AddRequestHeader=X-Custom-Header, Nithin
 #                - RedirectTo=302, https://codingshuttle.com
 #                - RemoveRequestHeader=cookie
+            - id: shipping-service
+              uri: lb://SHIPPING-SERVICE
+              predicates:
+                - Path=/api/v1/shippings/**
+                - Method=GET
+              filters:
+                - StripPrefix=2
 
 
 

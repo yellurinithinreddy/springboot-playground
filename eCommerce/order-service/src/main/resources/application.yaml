@@ -48,14 +48,20 @@ eureka:
 resilience4j:
   retry:
     configs:
-      default:
+      inventoryRetry:
         maxAttempts: 2
         waitDuration: 10s
+      shippingRetry:
+        maxAttempts: 3
+        waitDuration: 15s
 
-      instances:
-        inventoryRetry:
-          baseConfig: default
-          waitDuration: 15s
+    instances:
+      inventoryRetry:
+        baseConfig: inventoryRetry
+      shippingRetry:
+        baseConfig: shippingRetry
+
+
   #        maxAttempts: 3 # When a call is failed , this decides the maximum number of times that method will be called
   #        waitDuration: 10s # Duration between each method call
 
@@ -77,6 +83,17 @@ resilience4j:
         automaticTransitionFromOpenToHalfOpenEnabled: true # After time finished in open state it will automatically go half open without waiting for a request to come.
         permittedNumberOfCallsInHalfOpenState: 3 # These number of requests are only when the circuit is half open
         maxWaitDurationInHalfOpenState: 0ms # defines how much time the circuit stays in half open state. 0 means it stays infinitely until all the permitted calls are finished in half open state
+        eventConsumerBufferSize: 10
+      shippingCircuitBreaker:
+        registerHealthIndicator: true
+        slidingWindowType: COUNT_BASED
+        slidingWindowSize: 10
+        failureRateThreshold: 60
+        waitDurationInOpenState: 20s
+        minimumNumberOfCalls: 10
+        permittedNumberOfCallsInHalfOpenState: 4
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        maxWaitDurationInHalfOpenState: 0ms
         eventConsumerBufferSize: 10
 
 

@@ -1,6 +1,8 @@
 package com.nithin.order_service.service;
 
 import com.nithin.order_service.clients.InventoryOpenFeignClient;
+import com.nithin.order_service.clients.ShippingOpenFeignClient;
+
 import com.nithin.order_service.dto.OrderRequestDto;
 import com.nithin.order_service.dto.OrderRequestItemDto;
 import com.nithin.order_service.entity.OrderItem;
@@ -13,6 +15,7 @@ import io.github.resilience4j.retry.annotation.Retry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.internal.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +30,7 @@ public class OrdersService {
     private final OrdersRepository ordersRepository;
     private final ModelMapper modelMapper;
     private final InventoryOpenFeignClient inventoryOpenFeignClient;
+    private final ShippingOpenFeignClient shippingOpenFeignClient;
 
     public List<OrderRequestDto> getAllOrders() {
         log.info("Fetching all Orders");
@@ -85,5 +89,17 @@ public class OrdersService {
 
 
         return orderRequestDto;
+    }
+
+//    @Retry(name = "shippingRetry",fallbackMethod = "getShippingStatusFallBack")
+    @CircuitBreaker(name = "shippingCircuitBreaker",fallbackMethod = "getShippingStatusFallBack")
+    public String getShippingStatus() {
+        log.info("get shipping status method called");
+        return shippingOpenFeignClient.getShippingStatus();
+    }
+
+    public String getShippingStatusFallBack(Throwable throwable){
+        log.info("getShippingStatus method failed due to : {}",throwable.getMessage());
+        return "get Shipping status fallback method result";
     }
 }

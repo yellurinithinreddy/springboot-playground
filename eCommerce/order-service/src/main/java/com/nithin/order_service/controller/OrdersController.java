@@ -41,4 +41,9 @@ public class OrdersController {
     public ResponseEntity<OrderRequestDto> cancelOrder(@PathVariable Long orderId){
         return ResponseEntity.ok(ordersService.cancelOrder(orderId));
     }
+
+    @GetMapping("/shippingStatus")
+    public ResponseEntity<String> getShippingStatus(){
+        return ResponseEntity.ok(ordersService.getShippingStatus());
+    }
 }
