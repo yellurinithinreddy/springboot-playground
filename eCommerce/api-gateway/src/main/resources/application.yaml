@@ -17,6 +17,7 @@ spring:
                 - Path=/api/v1/orders/**
               filters:
                 - StripPrefix=2
+                - name: LoggingOrdersFilter
             - id: inventory-service
               uri: lb://INVENTORY-SERVICE
               predicates:
@@ -46,10 +47,10 @@ eureka:
 
 
 
-logging:
-  level:
-    org.springframework.cloud.gateway: TRACE
-    org.springframework.cloud.gateway.handler.RoutePredicateHandlerMapping: TRACE
-    org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator: TRACE
+#logging:
+#  level:
+#    org.springframework.cloud.gateway: TRACE
+#    org.springframework.cloud.gateway.handler.RoutePredicateHandlerMapping: TRACE
+#    org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator: TRACE
 
 
