@@ -1,0 +1,72 @@
+07-08-2026 22:05:06.765 [background-preinit] [-] INFO  api-gateway-o.h.validator.internal.util.Version.<clinit> - HV000001: Hibernate Validator 9.1.0.Final
+07-08-2026 22:05:06.834 [main] [-] INFO  api-gateway-c.n.a.ApiGatewayApplication.logStarting - Starting ApiGatewayApplication using Java 25.0.3 with PID 19568 (C:\Users\Admin\Documents\SpringBoot_learnings\eCommerce\api-gateway\target\classes started by Admin in C:\Users\Admin\Documents\SpringBoot_learnings\eCommerce)
+07-08-2026 22:05:06.835 [main] [-] INFO  api-gateway-c.n.a.ApiGatewayApplication.logStartupProfileInfo - No active profile set, falling back to 1 default profile: "default"
+07-08-2026 22:05:06.909 [main] [-] INFO  api-gateway-o.s.c.c.c.ConfigServerConfigDataLoader.log - Fetching config from server at : http://localhost:8888
+07-08-2026 22:05:06.909 [main] [-] INFO  api-gateway-o.s.c.c.c.ConfigServerConfigDataLoader.log - Located environment: name=api-gateway, profiles=[default], label=null, version=0ea68e7bd44f5a1fe092f8c5aa4a27ddfcec0fa8, state=
+07-08-2026 22:05:09.001 [main] [-] INFO  api-gateway-o.s.cloud.context.scope.GenericScope.setSerializationId - BeanFactory id=b6025227-80c5-3509-ae98-290580c50923
+07-08-2026 22:05:10.197 [main] [-] WARN  api-gateway-o.h.v.i.m.a.CascadingMetaDataBuilder.build - HV000271: Using `@Valid` on a container (java.util.List) is deprecated. You should apply the annotation on the type argument(s). Affected element: routes
+07-08-2026 22:05:10.255 [main] [-] WARN  api-gateway-o.h.v.i.m.a.CascadingMetaDataBuilder.build - HV000271: Using `@Valid` on a container (java.util.List) is deprecated. You should apply the annotation on the type argument(s). Affected element: filters
+07-08-2026 22:05:10.257 [main] [-] WARN  api-gateway-o.h.v.i.m.a.CascadingMetaDataBuilder.build - HV000271: Using `@Valid` on a container (java.util.List) is deprecated. You should apply the annotation on the type argument(s). Affected element: predicates
+07-08-2026 22:05:10.448 [main] [-] INFO  api-gateway-o.s.c.g.r.RouteDefinitionRouteLocator.lambda$initFactories$0 - Loaded RoutePredicateFactory [After]
+07-08-2026 22:05:10.448 [main] [-] INFO  api-gateway-o.s.c.g.r.RouteDefinitionRouteLocator.lambda$initFactories$0 - Loaded RoutePredicateFactory [Before]
+07-08-2026 22:05:10.449 [main] [-] INFO  api-gateway-o.s.c.g.r.RouteDefinitionRouteLocator.lambda$initFactories$0 - Loaded RoutePredicateFactory [Between]
+07-08-2026 22:05:10.449 [main] [-] INFO  api-gateway-o.s.c.g.r.RouteDefinitionRouteLocator.lambda$initFactories$0 - Loaded RoutePredicateFactory [Cookie]
+07-08-2026 22:05:10.449 [main] [-] INFO  api-gateway-o.s.c.g.r.RouteDefinitionRouteLocator.lambda$initFactories$0 - Loaded RoutePredicateFactory [Header]
+07-08-2026 22:05:10.449 [main] [-] INFO  api-gateway-o.s.c.g.r.RouteDefinitionRouteLocator.lambda$initFactories$0 - Loaded RoutePredicateFactory [Host]
+07-08-2026 22:05:10.449 [main] [-] INFO  api-gateway-o.s.c.g.r.RouteDefinitionRouteLocator.lambda$initFactories$0 - Loaded RoutePredicateFactory [Method]
+07-08-2026 22:05:10.450 [main] [-] INFO  api-gateway-o.s.c.g.r.RouteDefinitionRouteLocator.lambda$initFactories$0 - Loaded RoutePredicateFactory [Path]
+07-08-2026 22:05:10.450 [main] [-] INFO  api-gateway-o.s.c.g.r.RouteDefinitionRouteLocator.lambda$initFactories$0 - Loaded RoutePredicateFactory [Query]
+07-08-2026 22:05:10.450 [main] [-] INFO  api-gateway-o.s.c.g.r.RouteDefinitionRouteLocator.lambda$initFactories$0 - Loaded RoutePredicateFactory [ReadBody]
+07-08-2026 22:05:10.450 [main] [-] INFO  api-gateway-o.s.c.g.r.RouteDefinitionRouteLocator.lambda$initFactories$0 - Loaded RoutePredicateFactory [RemoteAddr]
+07-08-2026 22:05:10.450 [main] [-] INFO  api-gateway-o.s.c.g.r.RouteDefinitionRouteLocator.lambda$initFactories$0 - Loaded RoutePredicateFactory [Version]
+07-08-2026 22:05:10.450 [main] [-] INFO  api-gateway-o.s.c.g.r.RouteDefinitionRouteLocator.lambda$initFactories$0 - Loaded RoutePredicateFactory [XForwardedRemoteAddr]
+07-08-2026 22:05:10.451 [main] [-] INFO  api-gateway-o.s.c.g.r.RouteDefinitionRouteLocator.lambda$initFactories$0 - Loaded RoutePredicateFactory [Weight]
+07-08-2026 22:05:10.451 [main] [-] INFO  api-gateway-o.s.c.g.r.RouteDefinitionRouteLocator.lambda$initFactories$0 - Loaded RoutePredicateFactory [CloudFoundryRouteService]
+07-08-2026 22:05:10.918 [main] [-] INFO  api-gateway-o.s.b.a.e.web.EndpointLinksResolver.<init> - Exposing 16 endpoints beneath base path '/actuator'
+07-08-2026 22:05:11.547 [main] [-] INFO  api-gateway-o.s.c.n.e.c.DiscoveryClientOptionalArgsConfiguration.restClientDiscoveryClientOptionalArgs - Eureka HTTP Client uses RestClient.
+07-08-2026 22:05:11.581 [main] [-] WARN  api-gateway-o.s.c.l.c.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger.afterPropertiesSet - Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+07-08-2026 22:05:11.673 [main] [-] INFO  api-gateway-o.s.c.n.eureka.InstanceInfoFactory.create - Setting initial instance status as: STARTING
+07-08-2026 22:05:11.707 [main] [-] INFO  api-gateway-c.netflix.discovery.DiscoveryClient.<init> - Initializing Eureka in region us-east-1
+07-08-2026 22:05:11.714 [main] [-] INFO  api-gateway-c.n.d.s.r.aws.ConfigClusterResolver.getClusterEndpoints - Resolving eureka endpoints via configuration
+07-08-2026 22:05:11.727 [main] [-] INFO  api-gateway-c.netflix.discovery.DiscoveryClient.fetchRegistry - Disable delta property : false
+07-08-2026 22:05:11.728 [main] [-] INFO  api-gateway-c.netflix.discovery.DiscoveryClient.fetchRegistry - Single vip registry refresh property : null
+07-08-2026 22:05:11.728 [main] [-] INFO  api-gateway-c.netflix.discovery.DiscoveryClient.fetchRegistry - Force full registry fetch : false
+07-08-2026 22:05:11.728 [main] [-] INFO  api-gateway-c.netflix.discovery.DiscoveryClient.fetchRegistry - Application is null : false
+07-08-2026 22:05:11.728 [main] [-] INFO  api-gateway-c.netflix.discovery.DiscoveryClient.fetchRegistry - Registered Applications size is zero : true
+07-08-2026 22:05:11.728 [main] [-] INFO  api-gateway-c.netflix.discovery.DiscoveryClient.fetchRegistry - Application version is -1: true
+07-08-2026 22:05:11.729 [main] [-] INFO  api-gateway-c.netflix.discovery.DiscoveryClient.getAndStoreFullRegistry - Getting all instance registry info from the eureka server
+07-08-2026 22:05:12.087 [main] [-] INFO  api-gateway-c.netflix.discovery.DiscoveryClient.getAndStoreFullRegistry - The response status is 200
+07-08-2026 22:05:12.089 [main] [-] INFO  api-gateway-c.netflix.discovery.DiscoveryClient.initScheduledTasks - Starting heartbeat executor: renew interval is: 30
+07-08-2026 22:05:12.091 [main] [-] INFO  api-gateway-c.n.discovery.InstanceInfoReplicator.<init> - InstanceInfoReplicator onDemand update allowed rate per min is 4
+07-08-2026 22:05:12.094 [main] [-] INFO  api-gateway-c.netflix.discovery.DiscoveryClient.<init> - Discovery Client initialized at timestamp 1786120512092 with initial instances count: 1
+07-08-2026 22:05:12.098 [main] [-] INFO  api-gateway-o.s.c.n.e.s.EurekaServiceRegistry.register - Registering application API-GATEWAY with eureka with status UP
+07-08-2026 22:05:12.099 [main] [-] INFO  api-gateway-c.netflix.discovery.DiscoveryClient.notify - Saw local status change event StatusChangeEvent [timestamp=1786120512099, current=UP, previous=STARTING]
+07-08-2026 22:05:12.101 [DiscoveryClient-InstanceInfoReplicator-%d] [-] INFO  api-gateway-c.netflix.discovery.DiscoveryClient.register - DiscoveryClient_API-GATEWAY/DESKTOP-5CC3FG7:api-gateway:8080: registering service...
+07-08-2026 22:05:12.148 [DiscoveryClient-InstanceInfoReplicator-%d] [-] INFO  api-gateway-c.netflix.discovery.DiscoveryClient.register - DiscoveryClient_API-GATEWAY/DESKTOP-5CC3FG7:api-gateway:8080 - registration status: 204
+07-08-2026 22:05:12.318 [main] [-] INFO  api-gateway-o.s.b.reactor.netty.NettyWebServer.start - Netty started on port 8080 (http)
+07-08-2026 22:05:12.319 [main] [-] INFO  api-gateway-o.s.c.n.e.s.EurekaAutoServiceRegistration.onApplicationEvent - Updating port to 8080
+07-08-2026 22:05:12.343 [main] [-] INFO  api-gateway-c.n.a.ApiGatewayApplication.logStarted - Started ApiGatewayApplication in 10.732 seconds (process running for 11.58)
+07-08-2026 22:10:11.745 [AsyncResolver-bootstrap-executor-%d] [-] INFO  api-gateway-c.n.d.s.r.aws.ConfigClusterResolver.getClusterEndpoints - Resolving eureka endpoints via configuration
+07-08-2026 22:15:11.756 [AsyncResolver-bootstrap-executor-%d] [-] INFO  api-gateway-c.n.d.s.r.aws.ConfigClusterResolver.getClusterEndpoints - Resolving eureka endpoints via configuration
+07-08-2026 22:20:11.769 [AsyncResolver-bootstrap-executor-%d] [-] INFO  api-gateway-c.n.d.s.r.aws.ConfigClusterResolver.getClusterEndpoints - Resolving eureka endpoints via configuration
+07-08-2026 22:25:11.782 [AsyncResolver-bootstrap-executor-%d] [-] INFO  api-gateway-c.n.d.s.r.aws.ConfigClusterResolver.getClusterEndpoints - Resolving eureka endpoints via configuration
+07-08-2026 22:30:11.797 [AsyncResolver-bootstrap-executor-%d] [-] INFO  api-gateway-c.n.d.s.r.aws.ConfigClusterResolver.getClusterEndpoints - Resolving eureka endpoints via configuration
+07-08-2026 22:35:11.801 [AsyncResolver-bootstrap-executor-%d] [-] INFO  api-gateway-c.n.d.s.r.aws.ConfigClusterResolver.getClusterEndpoints - Resolving eureka endpoints via configuration
+07-08-2026 22:39:06.259 [reactor-http-nio-3] [-] INFO  api-gateway-c.n.a.filters.GlobalLoggingFilter.filter - Logging from Global Filter Pre: http://localhost:8080/orders/core/create-order
+07-08-2026 22:39:06.263 [reactor-http-nio-3] [-] INFO  api-gateway-c.n.a.filters.LoggingOrdersFilter.lambda$apply$0 - Logging from Orders Filter Pre : http://localhost:8080/orders/core/create-order
+07-08-2026 22:39:11.180 [reactor-http-nio-3] [-] INFO  api-gateway-c.n.a.filters.LoggingOrdersFilter.lambda$apply$1 - Logging from orders filter post: 200 OK
+07-08-2026 22:39:11.181 [reactor-http-nio-3] [-] INFO  api-gateway-c.n.a.filters.GlobalLoggingFilter.lambda$filter$0 - Logging from Global Filter post: 200 OK
+07-08-2026 22:40:11.809 [AsyncResolver-bootstrap-executor-%d] [-] INFO  api-gateway-c.n.d.s.r.aws.ConfigClusterResolver.getClusterEndpoints - Resolving eureka endpoints via configuration
+07-08-2026 22:43:55.216 [reactor-http-nio-7] [-] INFO  api-gateway-c.n.a.filters.GlobalLoggingFilter.filter - Logging from Global Filter Pre: http://localhost:8080/orders/core/create-order
+07-08-2026 22:43:55.218 [reactor-http-nio-7] [-] INFO  api-gateway-c.n.a.filters.LoggingOrdersFilter.lambda$apply$0 - Logging from Orders Filter Pre : http://localhost:8080/orders/core/create-order
+07-08-2026 22:43:55.343 [reactor-http-nio-7] [-] INFO  api-gateway-c.n.a.filters.LoggingOrdersFilter.lambda$apply$1 - Logging from orders filter post: 200 OK
+07-08-2026 22:43:55.343 [reactor-http-nio-7] [-] INFO  api-gateway-c.n.a.filters.GlobalLoggingFilter.lambda$filter$0 - Logging from Global Filter post: 200 OK
+07-08-2026 22:45:11.818 [AsyncResolver-bootstrap-executor-%d] [-] INFO  api-gateway-c.n.d.s.r.aws.ConfigClusterResolver.getClusterEndpoints - Resolving eureka endpoints via configuration
+07-08-2026 22:50:11.820 [AsyncResolver-bootstrap-executor-%d] [-] INFO  api-gateway-c.n.d.s.r.aws.ConfigClusterResolver.getClusterEndpoints - Resolving eureka endpoints via configuration
+07-08-2026 22:55:11.834 [AsyncResolver-bootstrap-executor-%d] [-] INFO  api-gateway-c.n.d.s.r.aws.ConfigClusterResolver.getClusterEndpoints - Resolving eureka endpoints via configuration
+07-08-2026 23:00:11.845 [AsyncResolver-bootstrap-executor-%d] [-] INFO  api-gateway-c.n.d.s.r.aws.ConfigClusterResolver.getClusterEndpoints - Resolving eureka endpoints via configuration
+07-08-2026 23:05:11.858 [AsyncResolver-bootstrap-executor-%d] [-] INFO  api-gateway-c.n.d.s.r.aws.ConfigClusterResolver.getClusterEndpoints - Resolving eureka endpoints via configuration
+07-08-2026 23:10:11.871 [AsyncResolver-bootstrap-executor-%d] [-] INFO  api-gateway-c.n.d.s.r.aws.ConfigClusterResolver.getClusterEndpoints - Resolving eureka endpoints via configuration
+07-08-2026 23:15:11.883 [AsyncResolver-bootstrap-executor-%d] [-] INFO  api-gateway-c.n.d.s.r.aws.ConfigClusterResolver.getClusterEndpoints - Resolving eureka endpoints via configuration
+07-08-2026 23:20:11.893 [AsyncResolver-bootstrap-executor-%d] [-] INFO  api-gateway-c.n.d.s.r.aws.ConfigClusterResolver.getClusterEndpoints - Resolving eureka endpoints via configuration
+07-08-2026 23:25:11.900 [AsyncResolver-bootstrap-executor-%d] [-] INFO  api-gateway-c.n.d.s.r.aws.ConfigClusterResolver.getClusterEndpoints - Resolving eureka endpoints via configuration
