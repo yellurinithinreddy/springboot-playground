@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -118,16 +119,22 @@ public class OrdersService {
 //        Double totalPrice = inventoryOpenFeignClient.reduceStocks(orderRequestDto);
 
         Orders order = modelMapper.map(orderRequestDto,Orders.class);
+        List<Long> items = new ArrayList<>();
+        List<Integer> quantity = new ArrayList<>();
         for(OrderItem orderItem:order.getItems()){
             orderItem.setOrder(order);
+            items.add(orderItem.getProductId());
+            quantity.add(orderItem.getQuantity());
         }
 
+        order = ordersRepository.save(order);
         Map<String,Object> envelope = Map.of(
-                "order", order
+                "items", items,
+                "quantity",quantity
         );
 
-        kafkaTemplate.send("order-created-topic",envelope);
+        kafkaTemplate.send("order-created-topic",order.getId(),envelope);
 
-        return modelMapper.map(ordersRepository.save(order), OrderRequestDto.class);
+        return modelMapper.map(order, OrderRequestDto.class);
     }
 }

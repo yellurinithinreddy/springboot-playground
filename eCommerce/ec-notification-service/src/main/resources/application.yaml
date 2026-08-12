@@ -1,0 +1,10 @@
+server:
+  port: 9090
+spring:
+  application:
+    name: ec-notification-service
+
+  config:
+    import: configserver:http://localhost:8888
+
+
