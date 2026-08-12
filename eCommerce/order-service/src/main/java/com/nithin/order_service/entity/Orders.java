@@ -20,7 +20,7 @@ public class Orders {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    private OrderStatus orderStatus;
+    private OrderStatus orderStatus = OrderStatus.PENDING;
 
     private Double totalPrice;
 

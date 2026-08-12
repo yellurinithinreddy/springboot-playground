@@ -1,0 +1,1 @@
+08-08-2026 01:35:38.899 [HikariPool-1:housekeeper] [-] WARN  inventory-service-com.zaxxer.hikari.pool.HikariPool.run - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2h3m34s817ms409µs900ns).

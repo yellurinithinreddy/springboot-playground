@@ -16,11 +16,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.internal.bytebuddy.implementation.bytecode.Throw;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +33,7 @@ public class OrdersService {
     private final ModelMapper modelMapper;
     private final InventoryOpenFeignClient inventoryOpenFeignClient;
     private final ShippingOpenFeignClient shippingOpenFeignClient;
+    private final KafkaTemplate<Long,Object> kafkaTemplate;
 
     public List<OrderRequestDto> getAllOrders() {
         log.info("Fetching all Orders");
@@ -49,23 +52,23 @@ public class OrdersService {
         return modelMapper.map(order, OrderRequestDto.class);
     }
 
-    @Transactional
+//    @Transactional
 //    @Retry(name = "inventoryRetry", fallbackMethod = "createOrderFallback")
 //    @RateLimiter(name = "inventoryRatelimiter",fallbackMethod = "createOrderFallback")
 //    @CircuitBreaker(name = "inventoryCircuitBreaker", fallbackMethod = "createOrderFallback")
-    public OrderRequestDto createOrder(OrderRequestDto orderRequestDto) {
-        log.info("Creating order with this details : {}",orderRequestDto);
-
-        Double totalPrice = inventoryOpenFeignClient.reduceStocks(orderRequestDto);
-
-        Orders order = modelMapper.map(orderRequestDto,Orders.class);
-        for(OrderItem orderItem:order.getItems()){
-            orderItem.setOrder(order);
-        }
-        order.setTotalPrice(totalPrice);
-        order.setOrderStatus(OrderStatus.CONFIRMED);
-        return modelMapper.map(ordersRepository.save(order), OrderRequestDto.class);
-    }
+//    public OrderRequestDto createOrder(OrderRequestDto orderRequestDto) {
+//        log.info("Creating order with this details : {}",orderRequestDto);
+//
+//        Double totalPrice = inventoryOpenFeignClient.reduceStocks(orderRequestDto);
+//
+//        Orders order = modelMapper.map(orderRequestDto,Orders.class);
+//        for(OrderItem orderItem:order.getItems()){
+//            orderItem.setOrder(order);
+//        }
+//        order.setTotalPrice(totalPrice);
+//        order.setOrderStatus(OrderStatus.CONFIRMED);
+//        return modelMapper.map(ordersRepository.save(order), OrderRequestDto.class);
+//    }
 
     public OrderRequestDto createOrderFallback(OrderRequestDto orderRequestDto,Throwable throwable){
         log.error("Got into fall back method for create order: {}",throwable.getMessage());
@@ -101,5 +104,30 @@ public class OrdersService {
     public String getShippingStatusFallBack(Throwable throwable){
         log.info("getShippingStatus method failed due to : {}",throwable.getMessage());
         return "get Shipping status fallback method result";
+    }
+
+
+
+    @Transactional
+//    @Retry(name = "inventoryRetry", fallbackMethod = "createOrderFallback")
+//    @RateLimiter(name = "inventoryRatelimiter",fallbackMethod = "createOrderFallback")
+//    @CircuitBreaker(name = "inventoryCircuitBreaker", fallbackMethod = "createOrderFallback")
+    public OrderRequestDto createOrder(OrderRequestDto orderRequestDto) {
+        log.info("Creating order with this details : {}",orderRequestDto);
+
+//        Double totalPrice = inventoryOpenFeignClient.reduceStocks(orderRequestDto);
+
+        Orders order = modelMapper.map(orderRequestDto,Orders.class);
+        for(OrderItem orderItem:order.getItems()){
+            orderItem.setOrder(order);
+        }
+
+        Map<String,Object> envelope = Map.of(
+                "order", order
+        );
+
+        kafkaTemplate.send("order-created-topic",envelope);
+
+        return modelMapper.map(ordersRepository.save(order), OrderRequestDto.class);
     }
 }

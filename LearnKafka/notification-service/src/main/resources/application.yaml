@@ -1,0 +1,32 @@
+server:
+  port: 9060
+
+
+spring:
+  application:
+    name: notification-service
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: notification-service
+      key-deserializer: org.apache.kafka.common.serialization.LongDeserializer
+      value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+      auto-offset-reset: earliest
+#      enable-auto-commit: false
+#      max-poll-records: 100
+      properties:
+        spring.json.trusted.packages: "com.nithin.*"
+        schema.registry.url: http://localhost:8081
+        specific.avro.reader: true
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/kafka-db?useSSL=false
+    username: root
+    password: Nithinreddy9491$
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+
+
+
