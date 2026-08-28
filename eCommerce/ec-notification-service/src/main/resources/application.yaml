@@ -5,6 +5,6 @@ spring:
     name: ec-notification-service
 
   config:
-    import: configserver:http://localhost:8888
+    import: configserver:http://config-server:8888
 
 

@@ -27,6 +27,8 @@ services:
       # Replace CLUSTER_ID with a unique base64 UUID using "bin/kafka-storage.sh random-uuid"
       # See https://docs.confluent.io/kafka/operations-tools/kafka-tools.html#kafka-storage-sh
       CLUSTER_ID: 'MkU3OEVBNTcwNTJENDM2Qk'
+    networks:
+      - ecommerce-network
 
   schema-registry:
     image: confluentinc/cp-schema-registry:7.7.1
@@ -40,6 +42,8 @@ services:
       SCHEMA_REGISTRY_HOST_NAME: schema-registry
       SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: 'broker:29092'
       SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
+    networks:
+      - ecommerce-network
 
   connect:
     image: cnfldemos/cp-server-connect-datagen:0.6.4-7.6.0
@@ -69,6 +73,8 @@ services:
       CONNECT_PRODUCER_INTERCEPTOR_CLASSES: "io.confluent.monitoring.clients.interceptor.MonitoringProducerInterceptor"
       CONNECT_CONSUMER_INTERCEPTOR_CLASSES: "io.confluent.monitoring.clients.interceptor.MonitoringConsumerInterceptor"
       CONNECT_PLUGIN_PATH: "/usr/share/java,/usr/share/confluent-hub-components"
+    networks:
+      - ecommerce-network
 
   control-center:
     image: confluentinc/cp-enterprise-control-center:7.7.1
@@ -93,6 +99,8 @@ services:
       CONTROL_CENTER_MONITORING_INTERCEPTOR_TOPIC_PARTITIONS: 1
       CONFLUENT_METRICS_TOPIC_REPLICATION: 1
       PORT: 9021
+    networks:
+      - ecommerce-network
 
   ksqldb-server:
     image: confluentinc/cp-ksqldb-server:7.7.1
@@ -116,3 +124,113 @@ services:
       KSQL_KSQL_LOGGING_PROCESSING_TOPIC_REPLICATION_FACTOR: 1
       KSQL_KSQL_LOGGING_PROCESSING_TOPIC_AUTO_CREATE: 'true'
       KSQL_KSQL_LOGGING_PROCESSING_STREAM_AUTO_CREATE: 'true'
+    networks:
+      - ecommerce-network
+
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: zipkin
+    ports:
+      - "9411:9411"
+    networks:
+      - ecommerce-network
+
+  discovery-service:
+    image: nithinreddyyelluri/discovery-service
+    container_name: discovery-service
+    networks:
+      - ecommerce-network
+    depends_on:
+      - zipkin
+
+  config-server:
+    image: nithinreddyyelluri/config-server
+    container_name: config-server
+    networks:
+      - ecommerce-network
+    depends_on:
+      - discovery-service
+    environment:
+      GIT_PASSWORD: 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
+
+
+  inventory-db:
+    image: mysql:8.0
+    container_name: inventory-db
+    environment:
+      MYSQL_DATABASE: inventorydb
+      MYSQL_ROOT_PASSWORD: Nithinreddy9491$
+    volumes:
+      - inventory-db-data:/var/lib/mysql
+    networks:
+      - ecommerce-network
+
+
+  order-db:
+    image: mysql:8.0
+    container_name: order-db
+    environment:
+      MYSQL_DATABASE: ordersdb
+      MYSQL_ROOT_PASSWORD: Nithinreddy9491$
+    volumes:
+      - order-db-data:/var/lib/mysql
+    networks:
+      - ecommerce-network
+
+
+
+
+  inventory-service:
+    image: nithinreddyyelluri/inventory-service:latest
+    container_name: inventory-service
+    depends_on:
+      - inventory-db
+      - order-db
+      - discovery-service
+      - config-server
+    networks:
+      - ecommerce-network
+
+  order-service:
+    image: nithinreddyyelluri/order-service:latest
+    container_name: order-service
+    depends_on:
+      - inventory-db
+      - order-db
+      - discovery-service
+      - config-server
+    networks:
+      - ecommerce-network
+  ec-notification-service:
+    image: nithinreddyyelluri/ec-notification-service:latest
+    container_name: ec-notification-service
+    depends_on:
+      - discovery-service
+      - config-server
+      - inventory-db
+      - order-db
+    networks:
+      - ecommerce-network
+
+  api-gateway:
+    image: nithinreddyyelluri/api-gateway:latest
+    container_name: api-gateway
+    ports:
+      - 8080:8080
+    depends_on:
+      - discovery-service
+      - order-service
+      - inventory-service
+      - config-server
+    networks:
+      - ecommerce-network
+
+
+
+volumes:
+  inventory-db-data:
+  order-db-data:
+
+
+networks:
+  ecommerce-network:

@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: product-service
+
+  datasource:
+    url: jdbc:postgresql://product-db:5432/product-db
+    username: nithin
+    password: password
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true

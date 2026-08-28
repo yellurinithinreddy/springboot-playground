@@ -16,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/core")
 @RefreshScope
-public class OrdersController {
+public class  OrdersController {
 
     private final OrdersService ordersService;
 
