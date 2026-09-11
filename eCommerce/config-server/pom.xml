@@ -11,7 +11,7 @@
 	<groupId>com.nithin</groupId>
 	<artifactId>config-server</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name/>
+	<name>config-server</name>
 	<description/>
 	<url/>
 	<licenses>
@@ -85,6 +85,33 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>3.5.2</version>
+
+				<configuration>
+					<from>
+						<image>eclipse-temurin:25-jre</image>
+					</from>
+
+					<to>
+						<image>docker.io/nithinreddyyelluri/ecommerce-${project.artifactId}:${project.version}</image>
+						<tags>
+							<tag>latest</tag>
+						</tags>
+					</to>
+				</configuration>
+
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>build</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

@@ -2,6 +2,7 @@ spring:
   application:
     name: config-server
 
+
   cloud:
     config:
       server:
@@ -15,8 +16,8 @@ server:
 
 eureka:
   client:
-    service-url:
-      defaultZone: http://discovery-service:8761/eureka
+    serviceUrl:
+      defaultZone: http://discovery-service:8761
 
 
 

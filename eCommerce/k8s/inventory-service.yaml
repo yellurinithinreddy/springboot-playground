@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inventory-service
+  labels:
+    app: inventory-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: inventory-service
+  template:
+    metadata:
+      name: inventory-service
+      labels:
+        app: inventory-service
+    spec:
+      containers:
+        - name: inventory-service
+          image: nithinreddyyelluri/ecommerce-inventory-service:1.0.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 9030
+          resources:
+            limits:
+              memory: "400Mi"
+              cpu: "200m"
+            requests:
+              memory: "200Mi"
+              cpu: "100m"
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: k8s
+            - name: DB_SERVICE
+              valueFrom:
+                configMapKeyRef:
+                  name: my-config
+                  key: INVENTORY_DB_SERVICE
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: my-secret
+                  key: INVENTORY_DB_NAME
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: my-secret
+                  key: INVENTORY_DB_USER
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: my-secret
+                  key: INVENTORY_DB_PASSWORD
+            - name: KAFKA_BROKER
+              valueFrom:
+                configMapKeyRef:
+                  name: my-config
+                  key: KAFKA_BROKER
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: inventory-service
+spec:
+  selector:
+    app: inventory-service
+  ports:
+    - port: 9030
+      targetPort: 9030
+      

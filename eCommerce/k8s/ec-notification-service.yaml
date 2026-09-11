@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ec-notification-service
+  labels:
+    app: ec-notification-service
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: ec-notification-service
+
+  template:
+    metadata:
+      name: ec-notification-service
+      labels:
+        app: ec-notification-service
+
+    spec:
+      containers:
+        - name: ec-notification-service
+          image: nithinreddyyelluri/ecommerce-ec-notification-service
+
+          ports:
+            - containerPort: 9090
+
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: k8s
+            - name: KAFKA_BROKER
+              valueFrom:
+                configMapKeyRef:
+                  name: my-config
+                  key: KAFKA_BROKER
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ec-notification-service
+spec:
+  selector:
+    app: ec-notification-service
+
+  ports:
+    - port: 9090
+      targetPort: 9090

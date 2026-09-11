@@ -11,7 +11,7 @@
 	<groupId>com.nithin</groupId>
 	<artifactId>inventory-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name/>
+	<name>inventory-service</name>
 	<description/>
 	<url/>
 	<licenses>
@@ -66,9 +66,15 @@
 		</dependency>
 
 
+<!--		<dependency>-->
+<!--			<groupId>com.mysql</groupId>-->
+<!--			<artifactId>mysql-connector-j</artifactId>-->
+<!--			<scope>runtime</scope>-->
+<!--		</dependency>-->
+
 		<dependency>
-			<groupId>com.mysql</groupId>
-			<artifactId>mysql-connector-j</artifactId>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
@@ -187,6 +193,33 @@
 								</path>
 							</annotationProcessorPaths>
 						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>3.5.2</version>
+
+				<configuration>
+					<from>
+						<image>eclipse-temurin:25-jre</image>
+					</from>
+
+					<to>
+						<image>docker.io/nithinreddyyelluri/ecommerce-${project.artifactId}:${project.version}</image>
+						<tags>
+							<tag>1.0.0</tag>
+						</tags>
+					</to>
+				</configuration>
+
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>build</goal>
+						</goals>
 					</execution>
 				</executions>
 			</plugin>

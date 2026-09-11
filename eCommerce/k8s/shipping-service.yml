@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shipping-service
+  labels:
+    app: shipping-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: shipping-service
+  template:
+    metadata:
+      name: shipping-service
+      labels:
+        app: shipping-service
+    spec:
+      containers:
+        - name: shipping-service
+          image: nithinreddyyelluri/ecommerce-shipping-service:latest
+          imagePullPolicy: Always
+          resources:
+            limits:
+              memory: "400Mi"
+              cpu: "200m"
+            requests:
+              memory: "200Mi"
+              cpu: "100m"
+          ports:
+            - containerPort: 9050
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: k8s
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: shipping-service
+spec:
+  selector:
+    app: shipping-service
+  ports:
+    - port: 9050
+      targetPort: 9050
+      
