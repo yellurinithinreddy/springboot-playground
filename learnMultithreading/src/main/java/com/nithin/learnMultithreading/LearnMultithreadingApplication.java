@@ -40,16 +40,12 @@ public class LearnMultithreadingApplication implements CommandLineRunner {
 		ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(4,6,2,
 				TimeUnit.SECONDS, new ArrayBlockingQueue<>(10));
 		log.info("Executing the method by thread name: {}",Thread.currentThread().getName());
-		threadPoolExecutor.submit(() -> {
-			log.info("Before long running task executed by thread name {}",Thread.currentThread().getName());
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-			log.info("after long running task executed by thread name {}",Thread.currentThread().getName());
 
-		});
+		for(int i=0;i<20;i++){
+			log.info("Inside for loop {}",Thread.currentThread().getName());
+			threadPoolExecutor.submit(new LongRunningTask(i+""));
+			Thread.sleep(1000);
+		}
 
 		log.info("Ending the method by thread name: {}",Thread.currentThread().getName());
 
