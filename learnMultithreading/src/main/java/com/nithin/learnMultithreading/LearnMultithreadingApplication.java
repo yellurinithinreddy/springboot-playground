@@ -5,9 +5,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 @SpringBootApplication
 @Slf4j
@@ -37,14 +35,27 @@ public class LearnMultithreadingApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(4,6,2,
-				TimeUnit.SECONDS, new ArrayBlockingQueue<>(10));
+		ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(4, 6, 2,
+				TimeUnit.SECONDS, new ArrayBlockingQueue<>(10),
+				new RejectedExecutionHandler() {
+					@Override
+					public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
+						log.info("Retrying the rejected task by thread {}",Thread.currentThread().getName());
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+						executor.submit(r);
+                    }
+				});
 		log.info("Executing the method by thread name: {}",Thread.currentThread().getName());
 
+//		ScheduledThreadPoolExecutor scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(4)
 		for(int i=0;i<20;i++){
-			log.info("Inside for loop {}",Thread.currentThread().getName());
+//			log.info("Inside for loop {}",Thread.currentThread().getName());
 			threadPoolExecutor.submit(new LongRunningTask(i+""));
-			Thread.sleep(1000);
+//			Thread.sleep(1000);
 		}
 
 		log.info("Ending the method by thread name: {}",Thread.currentThread().getName());
