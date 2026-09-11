@@ -51,10 +51,18 @@ public class LearnMultithreadingApplication implements CommandLineRunner {
 				});
 		log.info("Executing the method by thread name: {}",Thread.currentThread().getName());
 
-//		ScheduledThreadPoolExecutor scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(4)
+		ScheduledThreadPoolExecutor scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(4,
+				new ThreadFactory() {
+					@Override
+					public Thread newThread(Runnable r) {
+						return new Thread(r,"thread "+System.nanoTime());
+					}
+				});
+
+		scheduledThreadPoolExecutor.schedule(new LongRunningTask("Sceduled task"),4,TimeUnit.SECONDS);
 		for(int i=0;i<20;i++){
 //			log.info("Inside for loop {}",Thread.currentThread().getName());
-			threadPoolExecutor.submit(new LongRunningTask(i+""));
+//			threadPoolExecutor.submit(new LongRunningTask(i+""));
 //			Thread.sleep(1000);
 		}
 
