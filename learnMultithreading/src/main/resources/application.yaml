@@ -1,3 +1,11 @@
 spring:
   application:
     name: learnMultithreading
+
+
+server:
+  tomcat:
+    threads:
+      max: 500
+    min-spare: 200
+#    accept-count: 200 when the queue exceeds this count requests are rejected.

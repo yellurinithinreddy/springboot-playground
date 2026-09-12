@@ -1,15 +1,25 @@
 package com.nithin.learnMultithreading;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.TaskScheduler;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
+import java.time.Instant;
 import java.util.concurrent.*;
 
 @SpringBootApplication
 @Slf4j
+@EnableScheduling
+@EnableAsync
 public class LearnMultithreadingApplication implements CommandLineRunner {
+
+	@Autowired
+	private TaskScheduler taskScheduler;
 
 	public static void main(String[] args) throws InterruptedException {
 		SpringApplication.run(LearnMultithreadingApplication.class, args);
@@ -34,6 +44,10 @@ public class LearnMultithreadingApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
+
+		taskScheduler.schedule(() ->{
+			log.info("Inside custom task Scheduler");
+		}, Instant.ofEpochSecond(2)); //In this we can trigger any	thing after something has been done dynamically
 
 //		ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(4, 6, 2,
 //				TimeUnit.SECONDS, new ArrayBlockingQueue<>(10),
@@ -70,7 +84,7 @@ public class LearnMultithreadingApplication implements CommandLineRunner {
 //		learnFuture();
 
 //		learnCF();
-		learnCF2();
+//		learnCF2();
 	}
 
 

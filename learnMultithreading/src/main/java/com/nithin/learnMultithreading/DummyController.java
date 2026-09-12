@@ -1,16 +1,20 @@
 package com.nithin.learnMultithreading;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @Slf4j
+@RequiredArgsConstructor
 public class DummyController {
 
+    private final StudentService studentService;
     @GetMapping("/hello")
     public ResponseEntity<String> hello() throws InterruptedException {
         log.info("Thread Blocked: {}",Thread.currentThread().getName());
@@ -38,6 +42,15 @@ public class DummyController {
 
         return cf;
     }
+
+    @GetMapping("/student")
+    public ResponseEntity<Student> getStudent() throws InterruptedException, ExecutionException {
+        log.info("Get Student API called: {}",Thread.currentThread().getName());;
+        return ResponseEntity.ok(studentService.getStudent());
+    }
+
+
+
 
 
 }
